@@ -1,0 +1,19 @@
+3 3
+Fatima
+1
+Java 2
+Ahmed 
+2
+Python 5
+Kotlin 5
+Karim 
+1
+Ruby 3
+BlogApp 5 10 5 1
+Java 3
+Ecommerce 7 10 7 2
+Python 3
+Java 2
+MobileApp 10 20 20 2
+Ruby 3
+Python 3
