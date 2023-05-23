@@ -5,20 +5,20 @@ OBJS = ${SRCS:%.c=%.o}
 
 NAME = Main_Programm.exe
 
+
 #Linking step:
 ${NAME}: ${OBJS}
-	gcc ${OBJS} -o ${NAME}
+	gcc ${SRCS} -o ${NAME}
 
 #Compilation step:
-
-%.o: %.c INCLUDE\Functions.h INCLUDE\Structs.h
+%.o: %.c
 	gcc -c $< -o $@
 
 clean:
-	rm -f math.o main.o
+	del -f ${OBJS}
 
 fclean: clean
-	rm -f problem_c
+	del -f ${NAME}
 
 re: fclean ${NAME}
 

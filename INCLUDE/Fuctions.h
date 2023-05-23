@@ -1,3 +1,4 @@
 #include "Strcuts.h"
 
-Contributer * getContributers(); //Return a list of contributers
+Contributer * getContributers(FILE *input, int c); //Return a list of contributers
+Project *getProjects(FILE *input, int p);
