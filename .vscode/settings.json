@@ -5,6 +5,9 @@
         "strcuts.h": "c",
         "stdlib.h": "c",
         "fuctions.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c"
     }
 }

@@ -1,15 +1,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "../INCLUDE/Functions.h"
 
-typedef struct Node /*map (dictionary in py) wiht string keys and each key has a int data*/
+void merge(Contributer *arr, char *key,  int left, int right)
 {
-    struct Node *left;
-    struct Node *right;
-    int height;
-    char *key;
-    int data;
-}Nd;
+    int i, j, k;
+    int mid = left + ((right-left)/2);
+    int len1 = mid - left + 1;
+    int len2 = right - mid;
+ 
+    Contributer *arr1 = (Contributer *) malloc(len1 * sizeof(Contributer));
+    Contributer *arr2 = (Contributer *) malloc(len2 * sizeof(Contributer));
+ 
+    for (int i = 0; i <len1; i++)
+    {
+        arr1[i] = arr[left + i];
+    }
+ 
+    for (int j = 0; j <len2; j++)
+    {
+        arr2[j] = arr[mid + 1 + j];
+    }
+ 
+    i = 0;
+    j = 0;
+    k = left;
+    
+    while(i<len1 && j<len2)
+    {
+        if (ret_lvl(arr1[i].skills, key)  > ret_lvl(arr2[j].skills, key))
+        {
+            arr[k] = arr1[i];
+            i++;
+        }
+        else
+        {
+            arr[k] = arr2[j];
+            j++;
+        }
+        k++;
+    }
+    while (i<len1)
+    {
+        arr[k] = arr1[i];
+        i++;
+        k++;
+    }
+    while (j<len2)
+    {
+        arr[k] = arr2[j];
+        j++;
+        k++;
+    }
+    
+    
+}
 
 int max(int a, int b) /*the max of 2 integers*/
 {
@@ -37,14 +83,15 @@ bool compare(char *s1, char*s2)/*checking if 2 strings are equal or not*/
         return false;
     return true;
 }
-Nd* newNode(char* key,int data)/*creating a new node*/
+Nd* newNode(char* key,Contributer data)/*creating a new node*/
 {
     Nd* node = (Nd*)malloc(sizeof(Nd));
     node->left = NULL;
     node->right = NULL;
     node->height = 1;
     node->key = key;
-    node->data = data;
+    node->data = newArray();
+    append(&node->data, data);
 }
 
 int height(Nd* node)
@@ -78,7 +125,7 @@ void leftRotation(Nd** root_adr)
     *root_adr = rightChild;
 }
 
-void insert(Nd** root_adr, char* key,int data)/*inserting a node*/
+void insert(Nd** root_adr, char* key,Contributer data)/*inserting a node*/
 {
     Nd *root = *root_adr;
     if (root == NULL)
@@ -129,45 +176,33 @@ bool find(Nd* root, char* key)/*checking the existence of a key*/
     else
         return find(root->right, key);
 }
-int ret(Nd* root, char* key)/*return the value of a key*/
+Contributer *ret_cntr(Nd* root, char* key)/*return the value of a key*/
 {
     if (compare(root->key,key) == true)
-        return root->data;
+        return root->data.arr;
     else if (chmax(root->key,key) == root->key)
-        return ret(root->left, key);
+        return ret_cntr(root->left, key);
     else
-        return ret(root->right, key);
+        return ret_cntr(root->right, key);
 }
-void change_data(Nd*root,char* key,int data)/*changing the data of key*/
+void add_data(Nd*root,char* key,Contributer data)/*adding the data to key*/
 {
     if (compare(root->key,key) == true)
-        root->data = data;
+        {
+            append(&root->data, data);
+            merge(root->data.arr, key, 0, root->data.len - 1);
+        }
     else if (chmax(root->key,key) == root->key)
-        change_data(root->left, key,data);
+        add_data(root->left, key,data);
     else
-        change_data(root->right, key,data);
+        add_data(root->right, key,data);
 }
-void new(Nd*root, char* key, int data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
+void new(Nd*root, char* key, Contributer data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
 {
     bool k = find(root,key); 
     if (k == false)
         insert(&root,key,data);
     else{
-        change_data(root, key,data);
+        add_data(root, key,data);
     }
-}
-int main(){
-    /*example of a test to understand the functions ret and new*/
-    Nd *hh;
-    insert(&hh,"C",1);
-    insert(&hh,"C++",0);
-    insert(&hh,"Java",5);
-    int x = ret(hh,"Java");
-    printf("%d \n",x);
-    new(hh,"html",7);
-    new(hh,"Java",9);
-    x = ret(hh,"html");
-    printf("%d",x);
-    x = ret(hh,"Java");
-    printf("%d",x);
 }
