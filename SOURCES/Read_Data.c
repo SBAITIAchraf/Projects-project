@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../INCLUDE/Functions.h"
+#include "../INCLUDE/Strcuts.h"
 
-Contributer *getContributers(FILE *input, int c, Nd **map)
+
+
+Contributer *getContributers(FILE *input, int c)
 {
-    //Store contributers in an array and creat skill-contributer map
+    //Store contributers in an array
         Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
-        Nd *our_map = NULL;
             for (int i = 0; i < c; i++)
             {
                 Contributer new_contrib;
+                new_contrib.is_assigned=0;
 
                 //Get name
                     fscanf(input, "%s", new_contrib.name);
@@ -18,34 +20,20 @@ Contributer *getContributers(FILE *input, int c, Nd **map)
                     fscanf(input, "%d", &new_contrib.skillc);
 
                 //Set the skills
-                    new_contrib.skills = NULL;
-
-                    char **names = (char **) malloc(new_contrib.skillc * sizeof(char *)); // array of all skill names
-                    
+                    new_contrib.skills = (Skill *) malloc(new_contrib.skillc * sizeof(Skill));
                     for (int j = 0; j < new_contrib.skillc; j++)
                     {
-                        char name[23];
-                        int level;
+                        Skill new_skill;
+
                         // get name of skill
-                            fscanf(input, "%s", name);
+                            fscanf(input, "%s", new_skill.name);
 
                         // get level of skill
-                            fscanf(input, "%d", &level);
+                            fscanf(input, "%d", &new_skill.level);
 
-                        new_s(new_contrib.skills, name, level);//insert skill into the map
-                        names[j] = name;
+                        new_contrib.skills[j] = new_skill; //insert skill into the array
 
                     }
-
-                // insert skills and contributers to map
-                for (int j = 0; j < new_contrib.skillc; j++)
-                {
-                    new(our_map, names[j], new_contrib);
-                }
-
-                free(names); // remove the names array (we don't need it anymore)
-
-                *map = our_map;
                 contributers[i] = new_contrib;
             }
     return contributers;
