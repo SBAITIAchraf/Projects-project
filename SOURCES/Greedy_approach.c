@@ -47,8 +47,10 @@ void assign(Array *contributers_array, Project *projects, int index_project,stru
     for (int i = 0; i < contributers_array->len; i++) {
         contributers_array->arr[i].is_assigned = 1;
         if (contributers_array->arr[i].skills[A->arr[i]]->level <= projects[index_project].req_skills[A->arr[i]].level) {
-            change_data(contributers_array->arr[i].skills,projects[index_project].req_skills[A->arr[i]].name,contributers_array->arr[i].skills[A->arr[i]])->level+1; //look how to change the data of this contrib        
+            change_data(contributers_array->arr[i].skills,projects[index_project].req_skills[A->arr[i]].name,contributers_array->arr[i].skills[A->arr[i]])->level+1; //look how to change the data of this contrib     
+
     }
+        
 }
 }
 
@@ -63,7 +65,7 @@ void make_availble(Array *contributers_array){
 
 
 
-//implement a calculate_score function
+//implement a caalculate_score function to score the projects
 int calculate_total_score(Project *projects,int project_index,int score,int day){
     if(projects[project_index].best_bfor<day){
         score=score+max(0,score-(day-projects[project_index].best_bfor));

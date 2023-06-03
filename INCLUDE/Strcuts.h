@@ -14,6 +14,8 @@ typedef struct
     Nds *skills;
     char name[30];
     int skillc; //Number of skills
+    int is_assigned;
+    int day;
 
 }Contributer;
 
