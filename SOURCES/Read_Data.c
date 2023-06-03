@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../INCLUDE/Strcuts.h"
+#include "../INCLUDE/Functions.h"
 
 
 
@@ -20,18 +20,20 @@ Contributer *getContributers(FILE *input, int c)
                     fscanf(input, "%d", &new_contrib.skillc);
 
                 //Set the skills
-                    new_contrib.skills = (Skill *) malloc(new_contrib.skillc * sizeof(Skill));
+                    new_contrib.skills = NULL;
+
                     for (int j = 0; j < new_contrib.skillc; j++)
                     {
-                        Skill new_skill;
+                        char *name = (char *) malloc(23 * sizeof(char));
+                        int lvl;
 
                         // get name of skill
-                            fscanf(input, "%s", new_skill.name);
+                            fscanf(input, "%s", name);
 
                         // get level of skill
-                            fscanf(input, "%d", &new_skill.level);
+                            fscanf(input, "%d", &lvl);
 
-                        new_contrib.skills[j] = new_skill; //insert skill into the array
+                        new_s(&new_contrib.skills, name, lvl) ; //insert skill into the array
 
                     }
                 contributers[i] = new_contrib;

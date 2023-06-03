@@ -19,8 +19,7 @@ int main(int argc, char **argv)
             //Read the first line
             int c, p;
             fscanf(input, "%d %d", &c, &p); //get the first line
-    Nd *search_map; // the map that links skills with the contributers who have them
-    Contributer *contributers = getContributers(input ,c, &search_map);
+    Contributer *contributers = getContributers(input ,c);
     Project *projects = getProjects(input ,p);
 
     for (int i = 0; i<c; i++)

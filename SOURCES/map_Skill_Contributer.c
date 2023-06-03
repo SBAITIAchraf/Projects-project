@@ -199,12 +199,14 @@ void add_data(Nd*root,char* key,Contributer data)/*adding the data to key*/
     else
         add_data(root->right, key,data);
 }
-void new(Nd*root, char* key, Contributer data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
-{
+void new(Nd**root, char* key, Contributer data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
+{   
+    Nd *my_root = *root;
     bool k = find(root,key); 
     if (k == false)
-        insert(&root,key,data);
+        insert(&my_root,key,data);
     else{
-        add_data(root, key,data);
+        add_data(my_root, key,data);
     }
+    *root = my_root;
 }

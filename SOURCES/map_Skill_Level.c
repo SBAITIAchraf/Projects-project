@@ -140,12 +140,14 @@ void change_data(Nds*root,char* key,int data)/*changing the data of key*/
     else
         change_data(root->right, key,data);
 }
-void new_s(Nds*root, char* key, int data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
+void new_s(Nds**root, char* key, int data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
 {
-    bool k = find_s(root,key); 
+    Nds *my_root = * root;
+    bool k = find_s(my_root,key);
     if (k == false)
-        insert_s(&root,key,data);
+        insert_s(&my_root,key,data);
     else{
-        change_data(root, key,data);
+        change_data(my_root, key,data);
     }
+    *root = my_root;
 }
