@@ -2,7 +2,8 @@ SRCS = SOURCES\Main_Programm.c \
 	   SOURCES\Read_Data.c \
 	   SOURCES\map_Skill_Contributer.c \
 	   SOURCES\Dynamic_Array.c \
-	   SOURCES\map_Skill_Level.c
+	   SOURCES\map_Skill_Level.c \
+	   SOURCES\Greedy_approach.c
 
 OBJS = ${SRCS:%.c=%.o}
 
