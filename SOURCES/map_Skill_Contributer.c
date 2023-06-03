@@ -29,7 +29,9 @@ void merge(Contributer *arr, char *key,  int left, int right)
     
     while(i<len1 && j<len2)
     {
-        if (ret_lvl(arr1[i].skills, key)  > ret_lvl(arr2[j].skills, key))
+        int lvl1 = ret_lvl(arr1[i].skills, key);
+        int lvl2 = ret_lvl(arr2[j].skills, key);
+        if (lvl1  > lvl2)
         {
             arr[k] = arr1[i];
             i++;

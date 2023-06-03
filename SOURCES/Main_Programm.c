@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 
     for (int i = 0; i<c; i++)
     {
-        printf("%d\n", contributers[i].skillc);
+        printf("%s\n", contributers[i].skills->key);
     }
     fclose(input);
 }
