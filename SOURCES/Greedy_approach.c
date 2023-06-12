@@ -2,12 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
 #include "../INCLUDE/Strcuts.h"
 #include "../INCLUDE/Functions.h"
 
 
-//Implement a other function to make the project's contri available
 
 
 struct list
@@ -31,10 +29,6 @@ void append2(struct list *A,int elem){
 }
 
 
-
-
-
-
 int compareProjects(const void* a, const void* b) {
     const Project* projA = (const Project*)a;
     const Project* projB = (const Project*)b;
@@ -43,15 +37,24 @@ int compareProjects(const void* a, const void* b) {
     
 
 //implement an assign function
-void assign(Array *contributers_array, Project *projects, int index_project,struct list *A) {
+int assign(Array *contributers_array, Project *projects, int index_project,struct list *A) {
+    int ending_day=0;
     for (int i = 0; i < contributers_array->len; i++) {
         contributers_array->arr[i].is_assigned = 1;
+        contributers_array->arr[i].day=contributers_array->arr[i].day+projects[index_project].req_days;
         if (contributers_array->arr[i].skills[A->arr[i]]->level <= projects[index_project].req_skills[A->arr[i]].level) {
             change_data(contributers_array->arr[i].skills,projects[index_project].req_skills[A->arr[i]].name,contributers_array->arr[i].skills[A->arr[i]])->level+1; //look how to change the data of this contrib     
 
     }
-        
-}
+    }
+
+    for(int j=0;j<contributers_array->len;j++){
+        if(contributers_array->arr[j].day>ending_day){
+            ending_day=contributers_array->arr[j].day;
+        }
+    }
+
+    return ending_day;
 }
 
 //Implementing the make_available function
@@ -78,19 +81,27 @@ int calculate_total_score(Project *projects,int project_index,int score,int day)
 
 
 //implement the mentoring function
-int is_mentor(const char* skillName, int requiredLeve,Array *coontrib){
-    for(int i=0; coontrib->len; i++){
-        if(find_s(coontrib->arr[i].skills,skillName)==true && ret_lvl(coontrib->arr[i].skills,skillName)>=requiredLeve){
-            return true;    
+int is_mentor(Project *projects,struct list *ment,Array *coontrib,int k){
+    int mentor=0;
+    for(int i=0;i<coontrib->len;i++){
+        for(int j=0;j<ment->len;j++){
+            if(find_s(coontrib->arr[i].skills,projects[k].req_skills[ment->arr[j]].name)==true && ret_lvl(coontrib->arr[i].skills,projects[k].req_skills[ment->arr[j]].name)>=projects[k].req_skills[ment->arr[j]].level/*check the level*/ ){
+                mentor++;
+            }
+
+        }
+    }
+    if(mentor==ment->len){
+        return 1;
     }
     else{
-        return false;
+        return 0;
     }
-}
+
 }
 
 
-int main(){
+void greedy_approach(int p,Project *projects){
 
 Nd *search_map;
 qsort(projects,p ,sizeof(Project), compareProjects);
@@ -104,40 +115,54 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
     A.len=0;
     A.allocated=1;  
     A.arr=(int*)malloc(sizeof(int)*A.allocated);
+    struct list mentee;
+    mentee.len=0;
+    mentee.allocated=1;
+    mentee.arr=(int*)malloc(sizeof(int)*mentee.allocated);
     int assigned_contributors= 0;
-    for(int j=0; j<projects[i].rolles;j++){
-        if(find(search_map, Projects[i].req_skills[j]->name)==false){ 
+    for(int j=0; j<projects[i].roles;j++){
+        if(find(search_map, projects[i].req_skills[j].name)==false){ 
             free(contributers_project.arr);
             break;   //the project can not be excecuted
         }
         else{
-                Contributer *a=ret_cntr(search_map,projects[i].req_skills[j]->name);
-                int contrib_level=ret_lvl(a->skills,Projects[i].req_skills[j]->name);
-                if(contrib_level>=projects[i].req_skills[j]->level){
+                Contributer *a=ret_cntr(search_map,projects[i].req_skills[j].name);
+                int contrib_level=ret_lvl(a->skills,projects[i].req_skills[j].name);
+                if(contrib_level>=projects[i].req_skills[j].level && a->is_assigned==0){
                     assigned_contributors++;
+                    a->is_assigned=1;
                     append(&contributers_project,*a); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
                     append2(&A,j);//append the skill index as well
                     };
                     //considering the mentorship
-                else if (contrib_level==projects[i].req_skills[j]->level-1 && a->is_assigned==0 && is_mentor(projects[i].req_skills[j]->name,projects[i].req_skills[j]->level,&contributers_project)==1){
-                    append(&contributers_project,contributers[i]); //append this contributer to project_contributors
+                elseif(contrib_level==projects[i].req_skills[j].level-1 && a->is_assigned==0){
+                    assigned_contributors++;
+                    a->is_assigned=1;
+                    append(&contributers_project,*a); //append this contributer to project_contributors
                     append2(&A,j);
-                    }
+                    append2(&mentee,j);
+                    };
 
         
-                if(assigned_contributors==projects[i]->rolles){ //the project is assigned
-                    assign(&contributers_project,projects,i,&A);
-                    day=day+projects[i]->req_days;
+                if(assigned_contributors==projects[i].roles){ //the project is assigned
+                    if(is_mentor(projects,&mentee,&contributers_project,i)==1){
+                    int end=assign(&contributers_project,projects,i,&A);
                     //make_project's_contributer_available is_assigned==0
-                    calculate_total_score(projects[i]);
+                    score=calculate_total_score(projects,i,score,end);
+                    make_availble(&contributers_project);
                     free(contributers_project.arr);
                     }
+                    else{
+                        make_availble(&contributers_project);
+                        free(contributers_project.arr);
+                    }   
 
         }
 
     }
 
 }
-return 0;
-
 }
+  return 0;
+}
+
