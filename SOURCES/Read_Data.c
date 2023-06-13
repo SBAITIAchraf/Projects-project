@@ -2,11 +2,8 @@
 #include <stdlib.h>
 #include "../INCLUDE/Functions.h"
 
-
-
 Contributer *getContributers(FILE *input, int c, Nd **search_map)
 {
-    Nd *srch_mp = *search_map;
     //Store contributers in an array
         Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
             for (int i = 0; i < c; i++)
@@ -27,21 +24,28 @@ Contributer *getContributers(FILE *input, int c, Nd **search_map)
 
                     for (int j = 0; j < new_contrib.skillc; j++)
                     {
-                        char *name = (char *) malloc(23 * sizeof(char));
+                        char *name = (char *) malloc(22 * sizeof(char));
                         int lvl;
 
                         // get name of skill
+                        if (j == 0)
+                        {
                             fscanf(input, "%s", name);
+                        }
+                        else
+                        {
+                            fscanf(input, " %s", name);
+                        }
 
                         // get level of skill
                             fscanf(input, "%d", &lvl);
 
                         new_s(&new_contrib.skills, name, lvl) ; //insert skill into the map
-                        new(&srch_mp, name, (contributers + i));
+
+                        new(search_map, name, contributers);
                     }
                 contributers[i] = new_contrib;
             }
-    *search_map = srch_mp;
     return contributers;
 }
 

@@ -10,7 +10,7 @@ int main(int argc, char **argv)
             fprintf(stderr ,"No input was fed to the programm!");
             return 1;
         }*/
-    FILE *input = fopen(argv[1], "r");
+    FILE *input = fopen("TESTS\\project.txt", "r");
         if (input == NULL)
         {
             fprintf(stderr, "File not found!");
@@ -21,13 +21,14 @@ int main(int argc, char **argv)
             fscanf(input, "%d %d", &c, &p); //get the first line
 
     Nd *srch_map = NULL;
+
+    printf("%p\n", srch_map);
+
     Contributer *contributers = getContributers(input ,c, &srch_map);
     Project *projects = getProjects(input ,p);
 
-    for (int i = 0; i<c; i++)
-    {
-        printf("%s\n", srch_map->key);
-    }
+    printf("%p\n", srch_map);
+    
     fclose(input);
     
 }

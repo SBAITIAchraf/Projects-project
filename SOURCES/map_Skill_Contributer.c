@@ -87,7 +87,7 @@ bool compare(char *s1, char*s2)/*checking if 2 strings are equal or not*/
 }
 Nd* newNode(char* key,Contributer *data)/*creating a new node*/
 {
-    Nd* node = (Nd*)malloc(sizeof(Nd));
+    Nd* node = (Nd *) malloc(sizeof(Nd));
     node->left = NULL;
     node->right = NULL;
     node->height = 1;
@@ -200,7 +200,7 @@ void add_data(Nd*root,char* key,Contributer *data)/*adding the data to key*/
         add_data(root->right, key,data);
 }
 void new(Nd**root, char* key, Contributer *data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
-{   
+{
     Nd *my_root = *root;
     bool k = find(my_root,key); 
     if (k == false)

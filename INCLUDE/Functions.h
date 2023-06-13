@@ -6,7 +6,7 @@ Contributer * getContributers(FILE *input, int c, Nd **search_map); //Return a l
 Project *getProjects(FILE *input, int p);
 
 //Dynamic array
-void *append(Array *my_arr, Contributer *elem); // Append element to dynamic array
+void append(Array *my_arr, Contributer *elem); // Append element to dynamic array
 Array newArray();
 
 // Skill and level map
