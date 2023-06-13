@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "../INCLUDE/Strcuts.h"
 #include "../INCLUDE/Functions.h"
 
 
@@ -40,17 +39,18 @@ int compareProjects(const void* a, const void* b) {
 int assign(Array *contributers_array, Project *projects, int index_project,struct list *A) {
     int ending_day=0;
     for (int i = 0; i < contributers_array->len; i++) {
-        contributers_array->arr[i].is_assigned = 1;
-        contributers_array->arr[i].day=contributers_array->arr[i].day+projects[index_project].req_days;
-        if (contributers_array->arr[i].skills[A->arr[i]].data <= projects[index_project].req_skills[A->arr[i]].level) {
-            change_data(contributers_array->arr[i].skills,projects[index_project].req_skills[A->arr[i]].name,contributers_array->arr[i].skills[A->arr[i]].data+1); //look how to change the data of this contrib     
+        contributers_array->arr[i]->is_assigned = 1;
+        contributers_array->arr[i]->day=contributers_array->arr[i]->day+projects[index_project].req_days;
+        int contrib_lvl = ret_lvl(contributers_array->arr[i]->skills, projects[index_project].req_skills[A->arr[i]].name);
+        if (contrib_lvl <= projects[index_project].req_skills[A->arr[i]].level) {
+            new_s(&contributers_array->arr[i]->skills,projects[index_project].req_skills[A->arr[i]].name,contrib_lvl+1); //look how to change the data of this contrib     
 
     }
     }
 
     for(int j=0;j<contributers_array->len;j++){
-        if(contributers_array->arr[j].day>ending_day){
-            ending_day=contributers_array->arr[j].day;
+        if(contributers_array->arr[j]->day>ending_day){
+            ending_day=contributers_array->arr[j]->day;
         }
     }
 
@@ -60,7 +60,7 @@ int assign(Array *contributers_array, Project *projects, int index_project,struc
 //Implementing the make_available function
 void make_availble(Array *contributers_array){
     for(int i=0;i< contributers_array->len;i++){
-        contributers_array->arr[i].is_assigned=0;
+        contributers_array->arr[i]->is_assigned=0;
     }
 }
 
@@ -85,7 +85,7 @@ int is_mentor(Project *projects,struct list *ment,Array *coontrib,int k){
     int mentor=0;
     for(int i=0;i<coontrib->len;i++){
         for(int j=0;j<ment->len;j++){
-            if(find_s(coontrib->arr[i].skills,projects[k].req_skills[ment->arr[j]].name)==true && ret_lvl(coontrib->arr[i].skills,projects[k].req_skills[ment->arr[j]].name)>=projects[k].req_skills[ment->arr[j]].level/*check the level*/ ){
+            if(find_s(coontrib->arr[i]->skills,projects[k].req_skills[ment->arr[j]].name)==true && ret_lvl(coontrib->arr[i]->skills,projects[k].req_skills[ment->arr[j]].name)>=projects[k].req_skills[ment->arr[j]].level/*check the level*/ ){
                 mentor++;
             }
 
@@ -147,19 +147,19 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
             break;   //the project can not be excecuted
         }
         else{
-                Contributer *a=ret_cntr(search_map,projects[i].req_skills[j].name);
-                int contrib_level=ret_lvl(a->skills,projects[i].req_skills[j].name);
-                if(contrib_level>=projects[i].req_skills[j].level && a->is_assigned==0){
+                Contributer **a=ret_cntr(search_map,projects[i].req_skills[j].name);
+                int contrib_level=ret_lvl((*a)->skills,projects[i].req_skills[j].name);
+                if(contrib_level>=projects[i].req_skills[j].level && (*a)->is_assigned==0){
                     assigned_contributors++;
-                    a->is_assigned=1;
-                    append(&contributers_project,*a); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
+                    (*a)->is_assigned=1;
+                    append(&contributers_project, (*a)); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
                     append2(&A,j);//append the skill index as well
                     }
                     //considering the mentorship
-                else if(contrib_level==projects[i].req_skills[j].level-1 && a->is_assigned==0){
+                else if(contrib_level==projects[i].req_skills[j].level-1 && (*a)->is_assigned==0){
                     assigned_contributors++;
-                    a->is_assigned=1;
-                    append(&contributers_project,*a); //append this contributer to project_contributors
+                    (*a)->is_assigned=1;
+                    append(&contributers_project, (*a)); //append this contributer to project_contributors
                     append2(&A,j);
                     append2(&mentee,j);
                     }
@@ -186,6 +186,5 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
     }
 }
 }
-  return 0;
 }
 

@@ -4,8 +4,9 @@
 
 
 
-Contributer *getContributers(FILE *input, int c)
+Contributer *getContributers(FILE *input, int c, Nd **search_map)
 {
+    Nd *srch_mp = *search_map;
     //Store contributers in an array
         Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
             for (int i = 0; i < c; i++)
@@ -33,11 +34,12 @@ Contributer *getContributers(FILE *input, int c)
                         // get level of skill
                             fscanf(input, "%d", &lvl);
 
-                        new_s(&new_contrib.skills, name, lvl) ; //insert skill into the array
-
+                        new_s(&new_contrib.skills, name, lvl) ; //insert skill into the map
+                        new(&srch_mp, name, (contributers + i));
                     }
                 contributers[i] = new_contrib;
             }
+    *search_map = srch_mp;
     return contributers;
 }
 
