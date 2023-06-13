@@ -124,13 +124,12 @@ void greedy_approach(int p,Project *projects){
 
 Nd *search_map;
 qsort(projects,p ,sizeof(Project), compareProjects);
-
+int excecuted_projects=0;
 int day=0;
 int score=0;
 assignement *assigned_pro=(assignement*)malloc(p*sizeof(assignement));
 
 for(int i=0; i<p ;i++){                 //p is the number of projects
-    int excecuted_projects=0;
     Array contributers_project = newArray();
     struct list A;
     A.len=0;
@@ -186,5 +185,6 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
     }
 }
 }
+printing_function(excecuted_projects,&assigned_pro);
 }
 
