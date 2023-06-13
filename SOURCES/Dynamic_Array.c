@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../INCLUDE/Strcuts.h"
 
-void *append(Array *my_arr, Contributer *elem)
+void append(Array *my_arr, Contributer *elem)
 {
     if (my_arr->len == my_arr->mal)
     {
