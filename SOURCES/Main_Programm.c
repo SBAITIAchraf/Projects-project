@@ -19,12 +19,14 @@ int main(int argc, char **argv)
             //Read the first line
             int c, p;
             fscanf(input, "%d %d", &c, &p); //get the first line
-    Contributer *contributers = getContributers(input ,c);
+
+    Nd *srch_map = NULL;
+    Contributer *contributers = getContributers(input ,c, &srch_map);
     Project *projects = getProjects(input ,p);
 
     for (int i = 0; i<c; i++)
     {
-        printf("%s\n", contributers[i].skills->key);
+        printf("%s\n", srch_map->key);
     }
     fclose(input);
 }
