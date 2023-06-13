@@ -42,8 +42,8 @@ int assign(Array *contributers_array, Project *projects, int index_project,struc
     for (int i = 0; i < contributers_array->len; i++) {
         contributers_array->arr[i].is_assigned = 1;
         contributers_array->arr[i].day=contributers_array->arr[i].day+projects[index_project].req_days;
-        if (contributers_array->arr[i].skills[A->arr[i]]->level <= projects[index_project].req_skills[A->arr[i]].level) {
-            change_data(contributers_array->arr[i].skills,projects[index_project].req_skills[A->arr[i]].name,contributers_array->arr[i].skills[A->arr[i]])->level+1; //look how to change the data of this contrib     
+        if (contributers_array->arr[i].skills[A->arr[i]].data <= projects[index_project].req_skills[A->arr[i]].level) {
+            change_data(contributers_array->arr[i].skills,projects[index_project].req_skills[A->arr[i]].name,contributers_array->arr[i].skills[A->arr[i]].data+1); //look how to change the data of this contrib     
 
     }
     }
@@ -133,15 +133,15 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
                     a->is_assigned=1;
                     append(&contributers_project,*a); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
                     append2(&A,j);//append the skill index as well
-                    };
+                    }
                     //considering the mentorship
-                elseif(contrib_level==projects[i].req_skills[j].level-1 && a->is_assigned==0){
+                else if(contrib_level==projects[i].req_skills[j].level-1 && a->is_assigned==0){
                     assigned_contributors++;
                     a->is_assigned=1;
                     append(&contributers_project,*a); //append this contributer to project_contributors
                     append2(&A,j);
                     append2(&mentee,j);
-                    };
+                    }
 
         
                 if(assigned_contributors==projects[i].roles){ //the project is assigned
