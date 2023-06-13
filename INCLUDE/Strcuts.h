@@ -55,3 +55,9 @@ typedef struct
     int best_bfor; // deadline
     char name[30];
 }Project;
+
+typedef struct {
+    char name[30];
+    Array assign_cont;
+    
+}assignement;
