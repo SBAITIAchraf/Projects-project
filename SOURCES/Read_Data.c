@@ -13,6 +13,8 @@ Contributer *getContributers(FILE *input, int c, Nd **search_map)
             {
                 Contributer new_contrib;
                 new_contrib.is_assigned=0;
+                new_contrib.day=0;
+
 
                 //Get name
                     fscanf(input, "%s", new_contrib.name);

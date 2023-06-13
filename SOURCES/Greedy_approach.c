@@ -39,18 +39,30 @@ int compareProjects(const void* a, const void* b) {
 int assign(Array *contributers_array, Project *projects, int index_project,struct list *A) {
     int ending_day=0;
     for (int i = 0; i < contributers_array->len; i++) {
+<<<<<<< Updated upstream
         contributers_array->arr[i]->is_assigned = 1;
         contributers_array->arr[i]->day=contributers_array->arr[i]->day+projects[index_project].req_days;
         int contrib_lvl = ret_lvl(contributers_array->arr[i]->skills, projects[index_project].req_skills[A->arr[i]].name);
         if (contrib_lvl <= projects[index_project].req_skills[A->arr[i]].level) {
             new_s(&contributers_array->arr[i]->skills,projects[index_project].req_skills[A->arr[i]].name,contrib_lvl+1); //look how to change the data of this contrib     
+=======
+        contributers_array->arr[i].is_assigned = 1;
+        contributers_array->arr[i].day=contributers_array->arr[i].day+projects[index_project].req_days;
+        if (contributers_array->arr[i].skills[A->arr[i]]->level <= projects[index_project].req_skills[A->arr[i]].level) {
+            change_data(contributers_array->arr[i].skills,projects[index_project].req_skills[A->arr[i]].name,contributers_array->arr[i].skills[A->arr[i]])->level+1; //look how to change the data of this contrib     
+>>>>>>> Stashed changes
 
     }
     }
 
     for(int j=0;j<contributers_array->len;j++){
+<<<<<<< Updated upstream
         if(contributers_array->arr[j]->day>ending_day){
             ending_day=contributers_array->arr[j]->day;
+=======
+        if(contributers_array->arr[j].day>ending_day){
+            ending_day=contributers_array->arr[j].day;
+>>>>>>> Stashed changes
         }
     }
 
@@ -147,12 +159,21 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
             break;   //the project can not be excecuted
         }
         else{
+<<<<<<< Updated upstream
                 Contributer **a=ret_cntr(search_map,projects[i].req_skills[j].name);
                 int contrib_level=ret_lvl((*a)->skills,projects[i].req_skills[j].name);
                 if(contrib_level>=projects[i].req_skills[j].level && (*a)->is_assigned==0){
                     assigned_contributors++;
                     (*a)->is_assigned=1;
                     append(&contributers_project, (*a)); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
+=======
+                Contributer *a=ret_cntr(search_map,projects[i].req_skills[j]->name);
+                int contrib_level=ret_lvl(a->skills,Projects[i].req_skills[j]->name);
+                if(contrib_level>=projects[i].req_skills[j]->level && //chek the availibility){
+                    assigned_contributors++;
+                    a->is_assigned=1;
+                    append(&contributers_project,*a); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
+>>>>>>> Stashed changes
                     append2(&A,j);//append the skill index as well
                     }
                     //considering the mentorship
@@ -165,6 +186,7 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
                     }
 
         
+<<<<<<< Updated upstream
                 if(assigned_contributors==projects[i].roles){ //the project is assigned
                     if(is_mentor(projects,&mentee,&contributers_project,i)==1){
                         excecuted_projects++;
@@ -177,6 +199,14 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
                         score=calculate_total_score(projects,i,score,end);
                         make_availble(&contributers_project);
                         free(contributers_project.arr);
+=======
+                if(assigned_contributors==projects[i]->rolles){ //the project is assigned
+                    int end=assign(&contributers_project,projects,i,&A);
+                    //make_project's_contributer_available is_assigned==0
+                    score=calculate_total_score(projects,i,score,end);
+                    make_availble(&contributers_project);
+                    free(contributers_project.arr);
+>>>>>>> Stashed changes
                     }
                     else{
                         make_availble(&contributers_project);
