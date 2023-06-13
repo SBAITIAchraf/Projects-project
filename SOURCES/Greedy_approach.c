@@ -101,6 +101,25 @@ int is_mentor(Project *projects,struct list *ment,Array *coontrib,int k){
 }
 
 
+
+
+
+void printing_function(int pro_done,assignement *projec){
+    FILE *fp;
+    fp = fopen ("submission_file.txt", "w");
+    fprintf(fp,"%d\n",pro_done);
+    for(int i=0;i<pro_done;i++){ /*the projec is one indexed*/
+        fprintf(fp,projec[i+1].name);
+        for(int j=0;j<projec[i+1].assign_cont.len;j++){
+            fprintf(fp,projec[i+1].assign_cont.arr[j].name);
+
+        }
+
+    }
+    fclose (fp);
+}
+
+
 void greedy_approach(int p,Project *projects){
 
 Nd *search_map;
@@ -108,8 +127,10 @@ qsort(projects,p ,sizeof(Project), compareProjects);
 
 int day=0;
 int score=0;
+assignement *assigned_pro=(assignement*)malloc(p*sizeof(assignement));
 
 for(int i=0; i<p ;i++){                 //p is the number of projects
+    int excecuted_projects=0;
     Array contributers_project = newArray();
     struct list A;
     A.len=0;
@@ -146,21 +167,23 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
         
                 if(assigned_contributors==projects[i].roles){ //the project is assigned
                     if(is_mentor(projects,&mentee,&contributers_project,i)==1){
-                    int end=assign(&contributers_project,projects,i,&A);
-                    //make_project's_contributer_available is_assigned==0
-                    score=calculate_total_score(projects,i,score,end);
-                    make_availble(&contributers_project);
-                    free(contributers_project.arr);
+                        excecuted_projects++;
+                        assignement proj1;
+                        assigned_pro[excecuted_projects]=proj1;
+                        strcpy(proj1.name, projects[i].name);
+                        proj1.assign_cont=contributers_project;
+                        int end=assign(&contributers_project,projects,i,&A);
+                        //make_project's_contributer_available is_assigned==0
+                        score=calculate_total_score(projects,i,score,end);
+                        make_availble(&contributers_project);
+                        free(contributers_project.arr);
                     }
                     else{
                         make_availble(&contributers_project);
                         free(contributers_project.arr);
                     }   
-
         }
-
     }
-
 }
 }
   return 0;
