@@ -10,7 +10,7 @@ int main(int argc, char **argv)
             fprintf(stderr ,"No input was fed to the programm!");
             return 1;
         }*/
-    FILE *input = fopen("TESTS\\project.txt", "r");
+    FILE *input = fopen("..\\TESTS\\project.txt", "r");
         if (input == NULL)
         {
             fprintf(stderr, "File not found!");
@@ -22,12 +22,22 @@ int main(int argc, char **argv)
 
     Nd *srch_map = NULL;
 
-    printf("%p\n", srch_map);
 
-    Contributer *contributers = getContributers(input ,c, &srch_map);
+    Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
+    getContributers(input ,c, &srch_map, contributers);
     Project *projects = getProjects(input ,p);
+    /*Contributer first;
+    char nam[] = "Hello";
+    first.day = 0;
+    first.is_assigned = 0;
+    first.name = nam;
+    first.skillc = 2;
+    first.skills = NULL;
 
-    printf("%p\n", srch_map);
+    char skl[] = "Python";
+
+    new(&srch_map, skl, &first);*/
+    printf("%s\n", srch_map->key);
     
     fclose(input);
 }

@@ -38,6 +38,7 @@ Nds* newNode_s(char* key,int data)/*creating a new node*/
     node->height = 1;
     node->key = key;
     node->data = data;
+    return node;
 }
 
 int height_s(Nds* node)
@@ -142,7 +143,7 @@ void change_data(Nds*root,char* key,int data)/*changing the data of key*/
 }
 void new_s(Nds**root, char* key, int data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
 {
-    Nds *my_root = * root;
+    Nds *my_root = *root;
     bool k = find_s(my_root,key);
     if (k == false)
         insert_s(&my_root,key,data);

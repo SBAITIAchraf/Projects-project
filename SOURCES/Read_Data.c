@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include "../INCLUDE/Functions.h"
 
-Contributer *getContributers(FILE *input, int c, Nd **search_map)
+void getContributers(FILE *input, int c, Nd **search_map, Contributer *contributers)
 {
+    Nd *srch_mp = *search_map;
+
     //Store contributers in an array
-        Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
             for (int i = 0; i < c; i++)
             {
                 Contributer new_contrib;
@@ -21,6 +22,7 @@ Contributer *getContributers(FILE *input, int c, Nd **search_map)
 
                 //Set the skills
                     new_contrib.skills = NULL;
+                    char **skill_names = (char **) malloc(new_contrib.skillc * sizeof(char *));
 
                     for (int j = 0; j < new_contrib.skillc; j++)
                     {
@@ -28,25 +30,22 @@ Contributer *getContributers(FILE *input, int c, Nd **search_map)
                         int lvl;
 
                         // get name of skill
-                        if (j == 0)
-                        {
-                            fscanf(input, "%s", name);
-                        }
-                        else
-                        {
-                            fscanf(input, " %s", name);
-                        }
+                        fscanf(input, "%s", name);
 
                         // get level of skill
                             fscanf(input, "%d", &lvl);
 
                         new_s(&new_contrib.skills, name, lvl) ; //insert skill into the map
-
-                        new(search_map, name, contributers);
+                        skill_names[j] = name;
                     }
                 contributers[i] = new_contrib;
+                for (int k = 0; k<new_contrib.skillc; k++)
+                {
+                new(&srch_mp, skill_names[k], contributers[i]);
+                printf("%s\n", srch_mp->key);
+                }
             }
-    return contributers;
+    *search_map = srch_mp;
 }
 
 Project *getProjects(FILE *input, int p)
