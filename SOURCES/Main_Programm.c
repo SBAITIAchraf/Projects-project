@@ -40,4 +40,5 @@ int main(int argc, char **argv)
     printf("%s\n", srch_map->key);
     
     fclose(input);
+    
 }
