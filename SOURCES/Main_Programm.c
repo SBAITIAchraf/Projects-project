@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
     setContributers(input ,c, &srch_map, contributers);
     Project *projects = getProjects(input ,p);
-    greedy_approach(p, projects);
+    greedy_approach(p, projects,&srch_map);
     fclose(input);
     
 }
