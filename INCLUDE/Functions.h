@@ -2,7 +2,7 @@
 #include "Strcuts.h"
 
 // Read Data
-void getContributers(FILE *input, int c, Nd **search_map, Contributer *contributers); //Return a list of contributers
+void setContributers(FILE *input, int c, Nd **search_map, Contributer *contributers); //Return a list of contributers
 Project *getProjects(FILE *input, int p);
 
 //Dynamic array

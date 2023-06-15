@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../INCLUDE/Functions.h"
 
-void getContributers(FILE *input, int c, Nd **search_map, Contributer *contributers)
+void setContributers(FILE *input, int c, Nd **search_map, Contributer *contributers)
 {
     Nd *srch_mp = *search_map;
 
@@ -42,7 +42,6 @@ void getContributers(FILE *input, int c, Nd **search_map, Contributer *contribut
                 for (int k = 0; k<new_contrib.skillc; k++)
                 {
                 new(&srch_mp, skill_names[k], contributers[i]);
-                printf("%s\n", srch_mp->key);
                 }
             }
     *search_map = srch_mp;

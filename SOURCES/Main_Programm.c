@@ -24,19 +24,8 @@ int main(int argc, char **argv)
 
 
     Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
-    getContributers(input ,c, &srch_map, contributers);
+    setContributers(input ,c, &srch_map, contributers);
     Project *projects = getProjects(input ,p);
-    /*Contributer first;
-    char nam[] = "Hello";
-    first.day = 0;
-    first.is_assigned = 0;
-    first.name = nam;
-    first.skillc = 2;
-    first.skills = NULL;
-
-    char skl[] = "Python";
-
-    new(&srch_map, skl, &first);*/
     printf("%s\n", srch_map->key);
     
     fclose(input);

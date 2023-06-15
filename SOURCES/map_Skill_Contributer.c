@@ -160,7 +160,7 @@ void insert(Nd** root_adr, char* key,Contributer data)/*inserting a node*/
     {
         if (chmax(key ,root->right->key) == root->right->key)
         {
-            rightRotation(&(root->left));
+            rightRotation(&(root->right));
             leftRotation(&root);
         }
         else

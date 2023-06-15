@@ -104,7 +104,7 @@ void insert_s(Nds** root_adr, char* key,int data)/*inserting a node*/
     {
         if (chmax_s(key ,root->right->key) == root->right->key)
         {
-            rightRotation_s(&(root->left));
+            rightRotation_s(&(root->right));
             leftRotation_s(&root);
         }
         else
