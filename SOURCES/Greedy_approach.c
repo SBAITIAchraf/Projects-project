@@ -123,9 +123,8 @@ void printing_function(int pro_done,assignement *projec){
 }
 
 
-void greedy_approach(int p,Project *projects){
+void greedy_approach(int p,Project *projects,Nd *search_map){
 
-Nd *search_map;
 qsort(projects,p ,sizeof(Project), compareProjects);
 int excecuted_projects=0;
 int day=0;

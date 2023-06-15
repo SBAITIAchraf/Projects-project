@@ -21,5 +21,5 @@ int max(int a, int b); /*the max of 2 integers*/
 bool find(Nd* root, char* key);/*checking the existence of a key*/
 
 // Greedy approach
-void greedy_approach(int p,Project *projects);
+void greedy_approach(int p,Project *projects,Nd *search_map);
 
