@@ -20,3 +20,6 @@ Contributer *ret_cntr(Nd* root, char* key);/*return the contributer array of ski
 int max(int a, int b); /*the max of 2 integers*/
 bool find(Nd* root, char* key);/*checking the existence of a key*/
 
+// Greedy approach
+void greedy_approach(int p,Project *projects);
+

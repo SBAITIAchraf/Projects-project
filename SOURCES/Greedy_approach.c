@@ -111,7 +111,10 @@ void printing_function(int pro_done,assignement *projec){
     for(int i=0;i<pro_done;i++){ /*the projec is one indexed*/
         fprintf(fp,"%s\n",projec[i+1].name);
         for(int j=0;j<projec[i+1].assign_cont.len;j++){
-            fprintf(fp,projec[i+1].assign_cont.arr[j].name);
+            if(j<projec[i+1].assign_cont.len-1)
+                {fprintf(fp, "%s ", projec[i+1].assign_cont.arr[j].name);}
+            else
+                {fprintf(fp, "%s", projec[i+1].assign_cont.arr[j].name);}
 
         }
 

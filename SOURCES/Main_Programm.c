@@ -10,7 +10,7 @@ int main(int argc, char **argv)
             fprintf(stderr ,"No input was fed to the programm!");
             return 1;
         }*/
-    FILE *input = fopen("..\\TESTS\\project.txt", "r");
+    FILE *input = fopen(argv[1], "r");
         if (input == NULL)
         {
             fprintf(stderr, "File not found!");
@@ -26,8 +26,7 @@ int main(int argc, char **argv)
     Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
     setContributers(input ,c, &srch_map, contributers);
     Project *projects = getProjects(input ,p);
-    printf("%s\n", srch_map->key);
-    
+    greedy_approach(p, projects);
     fclose(input);
     
 }
