@@ -127,13 +127,12 @@ void greedy_approach(int p,Project *projects,Nd *search_map){
 
 qsort(projects,p ,sizeof(Project), compareProjects);
 int excecuted_projects=0;
-int non_excuted_projects=0;
 int day=0;
 int score=0;
 assignement *assigned_pro=(assignement*)malloc(p*sizeof(assignement));
-Project *non_assign=(Project*)malloc(p*sizeof(Project));
+arrayse non_assign=newwArray();
 
-for(int i=0; i<p ;i++){                 //p is the number of projects
+for(int i=0; i<p ;i++){    //p is the number of projects
     Array contributers_project = newArray();
     struct list A;
     A.len=0;
@@ -145,10 +144,12 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
     mentee.arr=(int*)malloc(sizeof(int)*mentee.allocated);
     int assigned_contributors= 0;
     for(int j=0; j<projects[i].roles;j++){
-        if(find(search_map, projects[i].req_skills[j].name)==false){ 
-            non_excuted_projects++;
-            non_assign[non_excuted_projects]=projects[i];
+        if(find(search_map, projects[i].req_skills[j].name)==false && projects[i].req_skills[j].level>1){ 
+            append3(&non_assign,projects[i]);
             free(contributers_project.arr);
+            free(A.arr);
+            free(mentee.arr);
+
             break;   //the project can not be excecuted
         }
         else{
@@ -168,10 +169,11 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
                     append2(&A,j);
                     append2(&mentee,j);
                     }else{
-                        non_excuted_projects++;
-                        non_assign[non_excuted_projects]=projects[i];
+                        append3(&non_assign,projects[i]);
                         make_availble(&contributers_project);
                         free(contributers_project.arr);
+                        free(A.arr);
+                        free(mentee.arr);
                         //the project can not be assigned
                     }
 
@@ -188,17 +190,27 @@ for(int i=0; i<p ;i++){                 //p is the number of projects
                         score=calculate_total_score(projects,i,score,end);
                         make_availble(&contributers_project);
                         free(contributers_project.arr);
+                        free(A.arr);
+                        free(mentee.arr);
                     }
                     else{
-                        non_excuted_projects++;
-                        non_assign[non_excuted_projects]=projects[i];
+                        append3(&non_assign,projects[i]);
                         make_availble(&contributers_project);
                         free(contributers_project.arr);
+                        free(A.arr);
+                        free(mentee.arr);
                     }   
         }
     }
 }
 }
+
+while(p!=non_assign.len){
+    greedy_approach(non_assign.len,non_assign.arr,&search_map);
+
+}
+
+
 
 printing_function(excecuted_projects, assigned_pro);
 

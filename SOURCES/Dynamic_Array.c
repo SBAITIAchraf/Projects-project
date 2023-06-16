@@ -29,3 +29,32 @@ Array newArray()
 
     return my_array;
 }
+
+
+void append3(arrayse *my_arr, Project elem)
+{
+    if (my_arr->len == my_arr->mal)
+    {
+        my_arr->mal *= 2;
+        Project *new_arr =(Project *) malloc(my_arr->mal * sizeof(Project));
+        for (int i = 0; i < my_arr->len; i++)
+        {
+            new_arr[i] = my_arr->arr[i];
+        }
+        free(my_arr->arr);
+        my_arr->arr = new_arr;
+    }
+    my_arr->arr[my_arr->len] = elem;
+    my_arr->len++;
+}
+
+arrayse newwArray()
+{
+    arrayse my_array;
+
+    my_array.arr = (Project *) malloc(sizeof(Project));
+    my_array.len = 0;
+    my_array.mal = 1;
+
+    return my_array;
+}

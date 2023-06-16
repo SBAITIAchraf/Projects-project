@@ -8,6 +8,8 @@ Project *getProjects(FILE *input, int p);
 //Dynamic array
 void append(Array *my_arr, Contributer elem); // Append element to dynamic array
 Array newArray();
+void append3(arrayse *my_arr,Project elem);
+arrayse newwArray();
 
 // Skill and level map
 void new_s(Nds**root, char* key, int data); /*u give it a key and it create a new node or just adds the data if the key exist*/
