@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <time.h>
 #include "../INCLUDE/Functions.h"
 
 
@@ -123,7 +124,7 @@ void printing_function(int pro_done,assignement *projec){
 }
 
 
-void greedy_approach(int p,Project *projects,Nd *search_map){
+void greedy_approach(int p,int c,Project *projects,Nd *search_map){
 
 qsort(projects,p ,sizeof(Project), compareProjects);
 int excecuted_projects=0;
@@ -149,8 +150,22 @@ for(int i=0; i<p ;i++){    //p is the number of projects
             free(contributers_project.arr);
             free(A.arr);
             free(mentee.arr);
-
             break;   //the project can not be excecuted
+        }else if(find(search_map, projects[i].req_skills[j].name)==false && projects[i].req_skills[j].level==1){
+            srand(time(NULL));
+            int index=rand()%c;
+            Contributer a=search_map->data.arr[index];
+            while(a.is_assigned==1){
+                srand(time(NULL));
+                int index=rand()%c;
+                Contributer a=search_map->data.arr[index];
+                assigned_contributors++;
+                a.is_assigned=1;
+                append(&contributers_project, a); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
+                append2(&A,j);
+            }
+
+
         }
         else{
                 Contributer *a=ret_cntr(search_map,projects[i].req_skills[j].name);
@@ -174,6 +189,7 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                         free(contributers_project.arr);
                         free(A.arr);
                         free(mentee.arr);
+                        break;
                         //the project can not be assigned
                     }
 
@@ -206,12 +222,9 @@ for(int i=0; i<p ;i++){    //p is the number of projects
 }
 
 while(p!=non_assign.len){
-    greedy_approach(non_assign.len,non_assign.arr,&search_map);
+    greedy_approach(non_assign.len,c,non_assign.arr,&search_map);
 
 }
-
-
-
 printing_function(excecuted_projects, assigned_pro);
 
 }
