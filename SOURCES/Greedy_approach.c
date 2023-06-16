@@ -159,11 +159,11 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                 srand(time(NULL));
                 int index=rand()%c;
                 Contributer a=search_map->data.arr[index];
-                assigned_contributors++;
-                a.is_assigned=1;
-                append(&contributers_project, a); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
-                append2(&A,j);
             }
+            assigned_contributors++;
+            a.is_assigned=1;
+            append(&contributers_project, a); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
+            append2(&A,j);
 
 
         }
@@ -221,10 +221,10 @@ for(int i=0; i<p ;i++){    //p is the number of projects
 }
 }
 
-while(p!=non_assign.len){
+/*while(p!=non_assign.len){
     greedy_approach(non_assign.len,c,non_assign.arr,&search_map);
 
-}
+}*/
 printing_function(excecuted_projects, assigned_pro);
 
 }

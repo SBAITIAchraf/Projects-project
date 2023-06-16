@@ -27,12 +27,6 @@ typedef struct
     int mal;
 }Array;
 
-//assignement project array
-typedef struct{
-    Project *arr;
-    int len;
-    int mal;
-}arrayse;
 
 /*map (dictionary in py) of skill keys and contributer array values*/
 typedef struct Node
@@ -62,6 +56,13 @@ typedef struct
     int best_bfor; // deadline
     char name[30];
 }Project;
+
+//assignement project array
+typedef struct{
+    Project *arr;
+    int len;
+    int mal;
+}arrayse;
 
 typedef struct {
     char name[30];
