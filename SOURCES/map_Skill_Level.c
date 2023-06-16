@@ -125,7 +125,9 @@ bool find_s(Nds* root, char* key)/*checking the existence of a key*/
 }
 int ret_lvl(Nds* root, char* key)/*return the value of a key*/
 {
-    if (compare_s(root->key,key) == true)
+    if (root == NULL)
+        return 0;
+    else if (compare_s(root->key,key) == true)
         return root->data;
     else if (chmax_s(root->key,key) == root->key)
         return ret_lvl(root->left, key);
