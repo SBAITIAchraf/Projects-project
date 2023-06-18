@@ -63,45 +63,35 @@ void make_availble(Array *contributers_array){
         contributers_array->arr[i].is_assigned=0;
     }
 }
-/*int Binary_search(Array *a,int first,int last,char *skill, int needed_levl){ // binary search to find the best contributer 
+int Binary_search(Array *a,int first,int last,char *skill, int needed_levl){ // binary search to find the best contributer 
     int x = last + ((first-last)/2);
     int contrib_level=ret_lvl(a->arr[x].skills,skill);
     if (contrib_level >= needed_levl-1){
-        int contrib_level_next=ret_lvl(a->arr[x+1].skills,skill);
-        if (contrib_level_next >= needed_levl-1)
-            return Binary_search(a,x,last,skill, needed_levl);
-        return x;
-    }
-    return Binary_search(a,first,x,skill, needed_levl);
-}*/
-
-//choosing the best contributer for the role
-Contributer *choose(Array *a,char *skill, int needed_levl){
-    int first = 0;
-    int last = a->len-1;
-    int midle;
-    int chosen_indx;
-    while (first <= last)
-    {
-        midle = last + ((first - last)/2);
-        int contrib_level=ret_lvl(a->arr[midle].skills,skill);
-        if (contrib_level >= needed_levl-1)
+        if (x == a->len-1)
         {
-            chosen_indx = midle;
-            first = midle +1;
+            return x;
         }
         else
         {
-            last = midle - 1;
+            int contrib_level_next=ret_lvl(a->arr[x+1].skills,skill);
+            if (contrib_level_next >= needed_levl-1)
+                return Binary_search(a,x,last,skill, needed_levl);
+            else
+                return x;
         }
     }
+    return Binary_search(a,first,x,skill, needed_levl);
+}
 
-    while((a->arr[chosen_indx].is_assigned == 1)&&(chosen_indx >= 0)){  //checking if the contr is available
-        chosen_indx--;
+//choosing the best contributer for the role
+Contributer *choose(Array *a,char *skill, int needed_levl){
+    int i = Binary_search(a,0,a->len-1,skill, needed_levl);
+    while((a->arr[i].is_assigned == 1)&&(i >= 0)){  //checking if the contr is available
+        i--;
     }
-    if (chosen_indx == -1)
+    if (i == -1)
         return NULL;
-    return (a->arr + chosen_indx);  
+    return (a->arr + i);  
 }
 
 

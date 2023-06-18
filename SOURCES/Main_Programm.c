@@ -26,7 +26,11 @@ int main(int argc, char **argv)
     Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
     setContributers(input ,c, &srch_map, contributers);
     Project *projects = getProjects(input ,p);
-    greedy_approach(p, c, projects, srch_map);
+    int excecuted_project = 0;
+    int day = 0;
+    int score = 0;
+    assignement *assigned_pro = (assignement *) malloc(p*sizeof(assignement));
+    greedy_approach(p, c, day, score, excecuted_project, assigned_pro, projects, srch_map);
     fclose(input);
     
 }
