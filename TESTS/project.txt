@@ -10,12 +10,13 @@ Kotlin 5
 Karim
 1
 Ruby 3
-BlogApp 5 10 5 1
-Java 3
-Ecommerce 7 10 7 2
+BlogApp 5 10 5 2
 Python 5
 Java 3
+Ecommerce 7 10 7 2
+Python 20
+Java 2
 MobileApp 10 20 20 3
-Ruby 3
-Python 3
+Ruby 30
+Python 7
 Java 3

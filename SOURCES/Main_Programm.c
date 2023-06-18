@@ -26,10 +26,19 @@ int main(int argc, char **argv)
     Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
     setContributers(input ,c, &srch_map, contributers);
     Project *projects = getProjects(input ,p);
-    int excecuted_projects=0;
+    int excecuted_projects = 0;
     int score=0;
     assignement *assigned_pro=(assignement*)malloc(p*sizeof(assignement));
-    greedy_approach(p,c,score,excecuted_projects,assigned_pro, projects,&srch_map);
-    fclose(input);
+    arrayse undone = greedy_approach(p,c, &score, &excecuted_projects,assigned_pro, projects, srch_map);
+    if (undone.len != 0)
+    {
+        int start_len;
+        do{
+            start_len = undone.len;
+            undone = greedy_approach(undone.len,c, &score, &excecuted_projects,assigned_pro, undone.arr, srch_map);
+        }while (start_len != undone.len);
+    }
     
+    printing_function(excecuted_projects, assigned_pro);
+    fclose(input);
 }

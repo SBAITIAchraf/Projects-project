@@ -58,18 +58,18 @@ int compareProjects(const void* a, const void* b) {
 int assign(Array *contributers_array, Project *projects, int index_project,struct list *A) {
     int ending_day=0;
     for (int i = 0; i < contributers_array->len; i++) {
-        contributers_array->arr[i].is_assigned = 1;
-        contributers_array->arr[i].day=contributers_array->arr[i].day+projects[index_project].req_days;
-        int contrib_lvl = ret_lvl(contributers_array->arr[i].skills, projects[index_project].req_skills[A->arr[i]].name);
+        contributers_array->ptr_arr[i]->is_assigned = 1;
+        contributers_array->ptr_arr[i]->day=contributers_array->ptr_arr[i]->day+projects[index_project].req_days;
+        int contrib_lvl = ret_lvl(contributers_array->ptr_arr[i]->skills, projects[index_project].req_skills[A->arr[i]].name);
         if (contrib_lvl <= projects[index_project].req_skills[A->arr[i]].level) {
-            new_s(&contributers_array->arr[i].skills,projects[index_project].req_skills[A->arr[i]].name,contrib_lvl+1); //look how to change the data of this contrib     
+            new_s(&contributers_array->ptr_arr[i]->skills,projects[index_project].req_skills[A->arr[i]].name,contrib_lvl+1); //look how to change the data of this contrib     
 
     }
     }
 
     for(int j=0;j<contributers_array->len;j++){
-        if(contributers_array->arr[j].day>ending_day){
-            ending_day=contributers_array->arr[j].day;
+        if(contributers_array->ptr_arr[j]->day>ending_day){
+            ending_day=contributers_array->ptr_arr[j]->day;
         }
     }
 
@@ -79,7 +79,7 @@ int assign(Array *contributers_array, Project *projects, int index_project,struc
 //Implementing the make_available function
 void make_availble(Array *contributers_array){
     for(int i=0;i< contributers_array->len;i++){
-        contributers_array->arr[i].is_assigned=0;
+        contributers_array->ptr_arr[i]->is_assigned=0;
     }
 }
 
@@ -150,12 +150,12 @@ Contributer *choose(Array *a,char *skill, int needed_levl){
 //implement a caalculate_score function to score the projects
 int calculate_total_score(Project *projects,int project_index,int* score,int day){
     if(projects[project_index].best_bfor<day){
-        *score=*score+max(0,score-(day-projects[project_index].best_bfor));
+        *score=(*score)+max(0,(*score)-(day-projects[project_index].best_bfor));
     }
     else{
         *score=*score+projects[project_index].score;
     }
-    return score;
+    return *score;
 }
 
 
@@ -164,7 +164,7 @@ int is_mentor(Project *projects,struct list *ment,Array *coontrib,int k){
     int mentor=0;
     for(int i=0;i<coontrib->len;i++){
         for(int j=0;j<ment->len;j++){
-            if(find_s(coontrib->arr[i].skills,projects[k].req_skills[ment->arr[j]].name)==true && ret_lvl(coontrib->arr[i].skills,projects[k].req_skills[ment->arr[j]].name)>=projects[k].req_skills[ment->arr[j]].level/*check the level*/ ){
+            if(find_s(coontrib->ptr_arr[i]->skills,projects[k].req_skills[ment->arr[j]].name)==true && ret_lvl(coontrib->ptr_arr[i]->skills,projects[k].req_skills[ment->arr[j]].name)>=projects[k].req_skills[ment->arr[j]].level/*check the level*/ ){
                 mentor++;
             }
 
@@ -187,50 +187,59 @@ void printing_function(int pro_done,assignement *projec){
     FILE *fp;
     fp = fopen ("submission_file.txt", "w");
     fprintf(fp,"%d\n",pro_done);
-    for(int i=0;i<pro_done;i++){ /*the projec is one indexed*/
-        fprintf(fp,"%s\n",projec[i+1].name);
-        for(int j=0;j<projec[i+1].assign_cont.len;j++){
-            if(j<projec[i+1].assign_cont.len-1)
-                {fprintf(fp, "%s ", projec[i+1].assign_cont.arr[j].name);}
+    for(int i=0;i<pro_done;i++){
+        fprintf(fp,"%s\n",projec[i].name);
+        for(int j=0;j<projec[i].assign_cont.len;j++){
+            if(j<projec[i].assign_cont.len-1)
+                {fprintf(fp, "%s ", projec[i].assign_cont.arr[j].name);}
             else
-                {fprintf(fp, "%s\n", projec[i+1].assign_cont.arr[j].name);}
+                {fprintf(fp, "%s\n", projec[i].assign_cont.arr[j].name);}
 
         }
     }
     //free the memory
     for(int k=0;k<pro_done;k++){
-        free(projec[k+1].assign_cont.arr);
+        free(projec[k].assign_cont.arr);
     }
 
     fclose (fp);
 }
 
 
-
-void greedy_approach(int p,int c,int* score,int excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map){
+// MAIN FUNCTION!
+arrayse greedy_approach(int p,int c,int* score,int *excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map){
 
 qsort(projects,p ,sizeof(Project), compareProjects);
 arrayse non_assign=newwArray();
 
 for(int i=0; i<p ;i++){    //p is the number of projects
-    Array contributers_project = newArray();
-    struct list A;
+
+    Array contributers_project = newArray_ptr();
+
+    struct list A; // array of roles indexs
     A.len=0;
     A.allocated=1;  
     A.arr=(int*)malloc(sizeof(int)*A.allocated);
+
     struct list mentee;
     mentee.len=0;
     mentee.allocated=1;
     mentee.arr=(int*)malloc(sizeof(int)*mentee.allocated);
+
     int assigned_contributors= 0;
+
     for(int j=0; j<projects[i].roles;j++){
+
+        // if the no one has the required skill
         if(find(search_map, projects[i].req_skills[j].name)==false && projects[i].req_skills[j].level>1){ 
             append3(&non_assign,projects[i]);
             make_availble(&contributers_project);
-            free(contributers_project.arr);
+            free(contributers_project.ptr_arr);
             free(A.arr);
             free(mentee.arr);
             break;   //the project can not be excecuted
+
+        //if no one has the skill and its lvl 1 the pick anyone randomly
         }else if(find(search_map, projects[i].req_skills[j].name)==false && projects[i].req_skills[j].level==1){
             srand(time(NULL));
             int index=rand()%c;
@@ -247,24 +256,27 @@ for(int i=0; i<p ;i++){    //p is the number of projects
 
 
         }
+        // if someone has the skill
         else{
+                //get the first contrib who has the highest lvl
                 Array *arr= ret_cntr(search_map,projects[i].req_skills[j].name);
                 int contrib_level=ret_lvl(arr->arr[0].skills,projects[i].req_skills[j].name);
                 if (contrib_level <projects[i].req_skills[j].level-1 ){
                      append3(&non_assign,projects[i]);
                      make_availble(&contributers_project);
-                     free(contributers_project.arr);
+                     free(contributers_project.ptr_arr);
                      free(A.arr);
                      free(mentee.arr);
                     break;//the project can not be excecuted
 
                 }
                 else {
+                    //get the contributer who has the the smallest lvl and still can do the job
                     Contributer *a = choose(arr,projects[i].req_skills[j].name, projects[i].req_skills[j].level);
                     if (a == NULL){//No one is available
                         append3(&non_assign,projects[i]);
                         make_availble(&contributers_project);
-                        free(contributers_project.arr);
+                        free(contributers_project.ptr_arr);
                         free(A.arr);
                         free(mentee.arr);
                         break;
@@ -274,21 +286,21 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                     if(contrib_level>=projects[i].req_skills[j].level){
                     assigned_contributors++;
                     a->is_assigned=1;
-                    append(&contributers_project, (*a)); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
+                    append_ptr(&contributers_project, a); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
                     append2(&A,j);//append the skill index as well
                     }
                     //considering the mentorship
                     else if(contrib_level==projects[i].req_skills[j].level-1){
                     assigned_contributors++;
                     a->is_assigned=1;
-                    append(&contributers_project, (*a)); //append this contributer to project_contributors
+                    append_ptr(&contributers_project, a); //append this contributer to project_contributors
                     append2(&A,j);
                     append2(&mentee,j);
                     }
                     else{
                         append3(&non_assign,projects[i]);
                         make_availble(&contributers_project);
-                        free(contributers_project.arr);
+                        free(contributers_project.ptr_arr);
                         free(A.arr);
                         free(mentee.arr);
                         break;
@@ -299,37 +311,33 @@ for(int i=0; i<p ;i++){    //p is the number of projects
 
         
                 if(assigned_contributors==projects[i].roles){ //the project is assigned
+                    //check if we can mentor
                     if(is_mentor(projects,&mentee,&contributers_project,i)==1){
-                        excecuted_projects++;
+                        (*excecuted_projects)++;
                         assignement proj1;
                         strcpy(proj1.name, projects[i].name);
                         proj1.assign_cont=newArray();
                         for (int j = 0; j < contributers_project.len; j++){
-                            append(&proj1.assign_cont, contributers_project.arr[j]);
+                            append(&proj1.assign_cont, *contributers_project.ptr_arr[j]);
                         };
-                        assigned_pro[excecuted_projects]=proj1;
+                        assigned_pro[(*excecuted_projects)-1]=proj1;
                         int end=assign(&contributers_project,projects,i,&A);
-                        *score=calculate_total_score(projects,i,&score,end);
+                        *score=calculate_total_score(projects,i,score,end);
                         make_availble(&contributers_project);
-                        free(contributers_project.arr);
+                        free(contributers_project.ptr_arr);
                         free(A.arr);
                         free(mentee.arr);
                     }
                     else{
                         append3(&non_assign,projects[i]);
                         make_availble(&contributers_project);
-                        free(contributers_project.arr);
+                        free(contributers_project.ptr_arr);
                         free(A.arr);
-                        free(mentee.arr);
+                        free(mentee.arr); // can't mentor so can't do project
                     }   
         }
     }
 }
 }
-
-/*while(p!=non_assign.len){
-    greedy_approach(non_assign.len,c,score,excecuted_projects,assigned_pro,non_assign.arr,&search_map);
-}*/
-printing_function(excecuted_projects, assigned_pro);
-
+return non_assign;
 }
