@@ -23,6 +23,7 @@ clean:
 
 fclean: clean
 	del -f ${NAME}
+	del -f submission_file.txt
 
 re: fclean ${NAME}
 

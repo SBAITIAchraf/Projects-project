@@ -10,7 +10,7 @@ int main(int argc, char **argv)
             fprintf(stderr ,"No input was fed to the programm!");
             return 1;
         }*/
-    FILE *input = fopen("TESTS\\project.txt", "r");
+    FILE *input = fopen("..\\TESTS\\project.txt", "r");
         if (input == NULL)
         {
             fprintf(stderr, "File not found!");

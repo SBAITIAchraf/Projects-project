@@ -63,26 +63,45 @@ void make_availble(Array *contributers_array){
         contributers_array->arr[i].is_assigned=0;
     }
 }
-int Binary_search(Array *a,int first,int last,char *skill){ // binary search to find the best contributer 
-    int x = (first+last)/2;
+/*int Binary_search(Array *a,int first,int last,char *skill, int needed_levl){ // binary search to find the best contributer 
+    int x = last + ((first-last)/2);
     int contrib_level=ret_lvl(a->arr[x].skills,skill);
-    if (contrib_level >= x-1){
+    if (contrib_level >= needed_levl-1){
         int contrib_level_next=ret_lvl(a->arr[x+1].skills,skill);
-        if (contrib_level_next >= x-1)
-            return Binary_search(a,x,last,skill);
+        if (contrib_level_next >= needed_levl-1)
+            return Binary_search(a,x,last,skill, needed_levl);
         return x;
     }
-    return Binary_search(a,first,x,skill);
-}
+    return Binary_search(a,first,x,skill, needed_levl);
+}*/
+
 //choosing the best contributer for the role
-Contributer *choose(Array *a,char *skill){
-    int i = Binary_search(a,0,a->len-1,skill);
-    while((a->arr[i].is_assigned == 1)&&(i >= 0)){  //checking if the contr is available
-        i--;
+Contributer *choose(Array *a,char *skill, int needed_levl){
+    int first = 0;
+    int last = a->len-1;
+    int midle;
+    int chosen_indx;
+    while (first <= last)
+    {
+        midle = last + ((first - last)/2);
+        int contrib_level=ret_lvl(a->arr[midle].skills,skill);
+        if (contrib_level >= needed_levl-1)
+        {
+            chosen_indx = midle;
+            first = midle +1;
+        }
+        else
+        {
+            last = midle - 1;
+        }
     }
-    if (i == -1)
+
+    while((a->arr[chosen_indx].is_assigned == 1)&&(chosen_indx >= 0)){  //checking if the contr is available
+        chosen_indx--;
+    }
+    if (chosen_indx == -1)
         return NULL;
-    return i;  
+    return (a->arr + chosen_indx);  
 }
 
 
@@ -193,7 +212,7 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                     break;
                 }
                 else {
-                    Contributer *a = choose(arr,projects[i].req_skills[j].name);
+                    Contributer *a = choose(arr,projects[i].req_skills[j].name, projects[i].req_skills[j].level);
                     if (a == NULL)  //No one is available
                         break;
                     contrib_level=ret_lvl(a->skills,projects[i].req_skills[j].name);
@@ -228,9 +247,9 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                     if(is_mentor(projects,&mentee,&contributers_project,i)==1){
                         excecuted_projects++;
                         assignement proj1;
-                        assigned_pro[excecuted_projects]=proj1;
                         strcpy(proj1.name, projects[i].name);
                         proj1.assign_cont=contributers_project;
+                        assigned_pro[excecuted_projects]=proj1;
                         int end=assign(&contributers_project,projects,i,&A);
                         //make_project's_contributer_available is_assigned==0
                         score=calculate_total_score(projects,i,score,end);

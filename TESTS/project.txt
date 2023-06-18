@@ -1,7 +1,7 @@
 3 3
 Fatima
 1
-Java 2
+Java 3
 Ahmed 
 2
 Python 5
