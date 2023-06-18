@@ -185,6 +185,7 @@ for(int i=0; i<p ;i++){    //p is the number of projects
     for(int j=0; j<projects[i].roles;j++){
         if(find(search_map, projects[i].req_skills[j].name)==false && projects[i].req_skills[j].level>1){ 
             append3(&non_assign,projects[i]);
+            make_availble(&contributers_project);
             free(contributers_project.arr);
             free(A.arr);
             free(mentee.arr);
@@ -209,12 +210,27 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                 Array *arr= ret_cntr(search_map,projects[i].req_skills[j].name);
                 int contrib_level=ret_lvl(arr->arr[0].skills,projects[i].req_skills[j].name);
                 if (contrib_level <projects[i].req_skills[j].level-1 ){
-                    break;
+                     append3(&non_assign,projects[i]);
+                     make_availble(&contributers_project);
+                     free(contributers_project.arr);
+                     free(A.arr);
+                     free(mentee.arr);
+                    break;//the project can not be excecuted
+
                 }
                 else {
                     Contributer *a = choose(arr,projects[i].req_skills[j].name, projects[i].req_skills[j].level);
-                    if (a == NULL)  //No one is available
+                    if (a == NULL){//No one is available
+                        append3(&non_assign,projects[i]);
+                        make_availble(&contributers_project);
+                        free(contributers_project.arr);
+                        free(A.arr);
+                        free(mentee.arr);
                         break;
+
+                    }  
+                      
+                        
                     contrib_level=ret_lvl(a->skills,projects[i].req_skills[j].name);
                     if(contrib_level>=projects[i].req_skills[j].level){
                     assigned_contributors++;
@@ -251,7 +267,6 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                         proj1.assign_cont=contributers_project;
                         assigned_pro[excecuted_projects]=proj1;
                         int end=assign(&contributers_project,projects,i,&A);
-                        //make_project's_contributer_available is_assigned==0
                         score=calculate_total_score(projects,i,score,end);
                         make_availble(&contributers_project);
                         free(contributers_project.arr);
