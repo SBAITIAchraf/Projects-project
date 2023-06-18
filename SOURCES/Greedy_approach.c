@@ -263,7 +263,10 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                         excecuted_projects++;
                         assignement proj1;
                         strcpy(proj1.name, projects[i].name);
-                        proj1.assign_cont=contributers_project;
+                        proj1.assign_cont=newArray();
+                        for (int j = 0; j < contributers_project.len; j++){
+                            append(&proj1.assign_cont, contributers_project.arr[j]);
+                        };
                         assigned_pro[excecuted_projects]=proj1;
                         int end=assign(&contributers_project,projects,i,&A);
                         score=calculate_total_score(projects,i,score,end);
@@ -286,7 +289,6 @@ for(int i=0; i<p ;i++){    //p is the number of projects
 
 /*while(p!=non_assign.len){
     greedy_approach(non_assign.len,c,score,excecuted_projects,assigned_pro,non_assign.arr,&search_map);
-
 }*/
 printing_function(excecuted_projects, assigned_pro);
 
