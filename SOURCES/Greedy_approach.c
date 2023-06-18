@@ -150,7 +150,7 @@ Contributer *choose(Array *a,char *skill, int needed_levl){
 //implement a caalculate_score function to score the projects
 int calculate_total_score(Project *projects,int project_index,int* score,int day){
     if(projects[project_index].best_bfor<day){
-        *score=(*score)+max(0,(*score)-(day-projects[project_index].best_bfor));
+        *score=(*score)+max(0,projects[project_index].score-(day-projects[project_index].best_bfor));
     }
     else{
         *score=*score+projects[project_index].score;

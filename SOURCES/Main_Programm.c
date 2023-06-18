@@ -38,7 +38,7 @@ int main(int argc, char **argv)
             undone = greedy_approach(undone.len,c, &score, &excecuted_projects,assigned_pro, undone.arr, srch_map);
         }while (start_len != undone.len);
     }
-    
+    printf("%d\n", score);
     printing_function(excecuted_projects, assigned_pro);
     fclose(input);
 }
