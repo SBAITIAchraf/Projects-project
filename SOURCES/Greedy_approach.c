@@ -148,12 +148,12 @@ Contributer *choose(Array *a,char *skill, int needed_levl){
 
 
 //implement a caalculate_score function to score the projects
-int calculate_total_score(Project *projects,int project_index,int score,int day){
+int calculate_total_score(Project *projects,int project_index,int* score,int day){
     if(projects[project_index].best_bfor<day){
-        score=score+max(0,score-(day-projects[project_index].best_bfor));
+        *score=*score+max(0,score-(day-projects[project_index].best_bfor));
     }
     else{
-        score=score+projects[project_index].score;
+        *score=*score+projects[project_index].score;
     }
     return score;
 }
@@ -197,12 +197,17 @@ void printing_function(int pro_done,assignement *projec){
 
         }
     }
+    //free the memory
+    for(int k=0;k<pro_done;k++){
+        free(projec[k+1].assign_cont.arr);
+    }
+
     fclose (fp);
 }
 
 
 
-void greedy_approach(int p,int c,int score,int excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map){
+void greedy_approach(int p,int c,int* score,int excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map){
 
 qsort(projects,p ,sizeof(Project), compareProjects);
 arrayse non_assign=newwArray();
@@ -304,7 +309,7 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                         };
                         assigned_pro[excecuted_projects]=proj1;
                         int end=assign(&contributers_project,projects,i,&A);
-                        score=calculate_total_score(projects,i,score,end);
+                        *score=calculate_total_score(projects,i,&score,end);
                         make_availble(&contributers_project);
                         free(contributers_project.arr);
                         free(A.arr);

@@ -10,7 +10,7 @@ int main(int argc, char **argv)
             fprintf(stderr ,"No input was fed to the programm!");
             return 1;
         }*/
-    FILE *input = fopen("..\\TESTS\\project.txt", "r");
+    FILE *input = fopen(argv[1], "r");
         if (input == NULL)
         {
             fprintf(stderr, "File not found!");
@@ -26,11 +26,10 @@ int main(int argc, char **argv)
     Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
     setContributers(input ,c, &srch_map, contributers);
     Project *projects = getProjects(input ,p);
-    int excecuted_project = 0;
-    int day = 0;
-    int score = 0;
-    assignement *assigned_pro = (assignement *) malloc(p*sizeof(assignement));
-    greedy_approach(p, c, score, excecuted_project, assigned_pro, projects, srch_map);
+    int excecuted_projects=0;
+    int score=0;
+    assignement *assigned_pro=(assignement*)malloc(p*sizeof(assignement));
+    greedy_approach(p,c,score,excecuted_projects,assigned_pro, projects,&srch_map);
     fclose(input);
     
 }
