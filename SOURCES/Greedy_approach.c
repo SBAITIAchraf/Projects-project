@@ -85,6 +85,15 @@ int Binary_search(Array *a,int first,int last,char *skill, int needed_levl){ // 
 
 //choosing the best contributer for the role
 Contributer *choose(Array *a,char *skill, int needed_levl){
+    if (ret_lvl(a->arr[0].skills,skill) == needed_levl-1){ //there is no contrib with a higher or equal lvl to needed level
+        int bi = 0;
+        while(ret_lvl(a->arr[bi].skills,skill) == needed_levl-1 && a->arr[bi].is_assigned == 1 && bi < a->len){
+                bi++;
+            }
+        if (bi == a->len || ret_lvl(a->arr[bi].skills,skill) != needed_levl-1) 
+        return NULL;
+        return (a->arr+bi);
+    }
     int i = Binary_search(a,0,a->len-1,skill, needed_levl);
     int bi = i;
     while((a->arr[i].is_assigned == 1)&&(i >= 0)){  //checking if the contr is available
@@ -98,7 +107,7 @@ Contributer *choose(Array *a,char *skill, int needed_levl){
             while(ret_lvl(a->arr[bi].skills,skill) == needed_levl-1 && a->arr[bi].is_assigned == 1 && bi < a->len){
                 bi++;
             }
-            if (bi == a->len) 
+            if (bi == a->len || ret_lvl(a->arr[bi].skills,skill) != needed_levl-1) 
             return NULL;
             return (a->arr+bi);
         }
@@ -228,8 +237,6 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                         break;
 
                     }  
-                      
-                        
                     contrib_level=ret_lvl(a->skills,projects[i].req_skills[j].name);
                     if(contrib_level>=projects[i].req_skills[j].level){
                     assigned_contributors++;
@@ -238,7 +245,7 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                     append2(&A,j);//append the skill index as well
                     }
                     //considering the mentorship
-                    else if(contrib_level==projects[i].req_skills[j].level-1 && a->is_assigned==0){
+                    else if(contrib_level==projects[i].req_skills[j].level-1){
                     assigned_contributors++;
                     a->is_assigned=1;
                     append(&contributers_project, (*a)); //append this contributer to project_contributors
