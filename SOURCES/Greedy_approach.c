@@ -162,13 +162,9 @@ void printing_function(int pro_done,assignement *projec){
 
 
 
-void greedy_approach(int p,int c,Project *projects,Nd *search_map){
+void greedy_approach(int p,int c,int day,int score,int excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map){
 
 qsort(projects,p ,sizeof(Project), compareProjects);
-int excecuted_projects=0;
-int day=0;
-int score=0;
-assignement *assigned_pro=(assignement*)malloc(p*sizeof(assignement));
 arrayse non_assign=newwArray();
 
 for(int i=0; i<p ;i++){    //p is the number of projects
