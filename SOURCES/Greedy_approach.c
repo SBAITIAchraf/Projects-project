@@ -159,7 +159,7 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                 srand(time(NULL));
                 int index=rand()%c;
                 Contributer a=search_map->data.arr[index];
-            }
+            }//all the contributers can be assigned to the projects so we will choose randomly one of them
             assigned_contributors++;
             a.is_assigned=1;
             append(&contributers_project, a); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
