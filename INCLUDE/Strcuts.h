@@ -23,6 +23,7 @@ typedef struct
 typedef struct 
 {
     Contributer *arr;
+    Contributer **ptr_arr;
     int len;
     int mal;
 }Array;

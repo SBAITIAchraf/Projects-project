@@ -8,6 +8,8 @@ Project *getProjects(FILE *input, int p);
 //Dynamic array
 void append(Array *my_arr, Contributer elem); // Append element to dynamic array
 Array newArray();
+void append_ptr(Array *my_arr, Contributer *elem);
+Array newArray_ptr();
 void append3(arrayse *my_arr,Project elem);
 arrayse newwArray();
 
