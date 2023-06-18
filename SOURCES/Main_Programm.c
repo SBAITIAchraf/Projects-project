@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../INCLUDE/Functions.h"
 
-
+// The make file is set for windows system
 int main(int argc, char **argv)
 {
         if (argc<2)
