@@ -5,11 +5,11 @@
 
 int main(int argc, char **argv)
 {
-        /*if (argc<2)
+        if (argc<2)
         {
             fprintf(stderr ,"No input was fed to the programm!");
             return 1;
-        }*/
+        }
     FILE *input = fopen(argv[1], "r");
         if (input == NULL)
         {
