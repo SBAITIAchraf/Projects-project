@@ -98,7 +98,7 @@ Contributer *choose(Array *a,char *skill, int needed_levl){
             while(ret_lvl(a->arr[bi].skills,skill) == needed_levl-1 && a->arr[bi].is_assigned == 1 && bi < a->len){
                 bi++;
             }
-            if (bi == a->len) 
+            if (bi == a->len || ret_lvl(a->arr[bi].skills,skill) != needed_levl-1) 
             return NULL;
             return (a->arr+bi);
         }
