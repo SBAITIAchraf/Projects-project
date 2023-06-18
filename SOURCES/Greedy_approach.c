@@ -182,7 +182,7 @@ void printing_function(int pro_done,assignement *projec){
 
 
 
-void greedy_approach(int p,int c, int day,int score,int excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map){
+void greedy_approach(int p,int c,int score,int excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map){
 
 qsort(projects,p ,sizeof(Project), compareProjects);
 arrayse non_assign=newwArray();
