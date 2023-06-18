@@ -179,10 +179,10 @@ bool find(Nd* root, char* key)/*checking the existence of a key*/
     else
         return find(root->right, key);
 }
-Contributer *ret_cntr(Nd* root, char* key)/*return the value of a key*/
+Array *ret_cntr(Nd* root, char* key)/*return the value of a key*/
 {
     if (compare(root->key,key) == true)
-        return root->data.arr;
+        return &root->data;
     else if (chmax(root->key,key) == root->key)
         return ret_cntr(root->left, key);
     else

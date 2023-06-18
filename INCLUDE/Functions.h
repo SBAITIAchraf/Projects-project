@@ -18,7 +18,7 @@ bool find_s(Nds* root, char* key);/*checking the existence of a key*/
 
 // Skill and contributer map
 void new(Nd**root, char* key, Contributer data);
-Contributer *ret_cntr(Nd* root, char* key);/*return the contributer array of skill key*/
+Array *ret_cntr(Nd* root, char* key);/*return the contributer array of skill key*/
 int max(int a, int b); /*the max of 2 integers*/
 bool find(Nd* root, char* key);/*checking the existence of a key*/
 

@@ -35,7 +35,6 @@ int compareProjects(const void* a, const void* b) {
     return projA->best_bfor - projB->best_bfor;
 }
     
-
 //implement an assign function
 int assign(Array *contributers_array, Project *projects, int index_project,struct list *A) {
     int ending_day=0;
@@ -64,8 +63,27 @@ void make_availble(Array *contributers_array){
         contributers_array->arr[i].is_assigned=0;
     }
 }
-
-
+int Binary_search(Array *a,int first,int last,char *skill){ // binary search to find the best contributer 
+    int x = (first+last)/2;
+    int contrib_level=ret_lvl(a->arr[x].skills,skill);
+    if (contrib_level >= x-1){
+        int contrib_level_next=ret_lvl(a->arr[x+1].skills,skill);
+        if (contrib_level_next >= x-1)
+            return Binary_search(a,x,last,skill);
+        return x;
+    }
+    return Binary_search(a,first,x,skill);
+}
+//choosing the best contributer for the role
+Contributer *choose(Array *a,char *skill){
+    int i = Binary_search(a,0,a->len-1,skill);
+    while((a->arr[i].is_assigned == 1)&&(i >= 0)){  //checking if the contr is available
+        i--;
+    }
+    if (i == -1)
+        return NULL;
+    return i;  
+}
 
 
 
@@ -124,6 +142,7 @@ void printing_function(int pro_done,assignement *projec){
 }
 
 
+
 void greedy_approach(int p,int c,Project *projects,Nd *search_map){
 
 qsort(projects,p ,sizeof(Project), compareProjects);
@@ -168,22 +187,31 @@ for(int i=0; i<p ;i++){    //p is the number of projects
 
         }
         else{
-                Contributer *a=ret_cntr(search_map,projects[i].req_skills[j].name);
-                int contrib_level=ret_lvl(a->skills,projects[i].req_skills[j].name);
-                if(contrib_level>=projects[i].req_skills[j].level && a->is_assigned==0){
+                Array *arr= ret_cntr(search_map,projects[i].req_skills[j].name);
+                int contrib_level=ret_lvl(arr->arr[0].skills,projects[i].req_skills[j].name);
+                if (contrib_level <projects[i].req_skills[j].level-1 ){
+                    break;
+                }
+                else {
+                    Contributer *a = choose(arr,projects[i].req_skills[j].name);
+                    if (a == NULL)  //No one is available
+                        break;
+                    contrib_level=ret_lvl(a->skills,projects[i].req_skills[j].name);
+                    if(contrib_level>=projects[i].req_skills[j].level){
                     assigned_contributors++;
                     a->is_assigned=1;
                     append(&contributers_project, (*a)); //append this contributer to project_contributors I should implement a append function that appends a string to ana array or allocate dynimically a pointer and each time add an element
                     append2(&A,j);//append the skill index as well
                     }
                     //considering the mentorship
-                else if(contrib_level==projects[i].req_skills[j].level-1 && a->is_assigned==0){
+                    else if(contrib_level==projects[i].req_skills[j].level-1 && a->is_assigned==0){
                     assigned_contributors++;
                     a->is_assigned=1;
                     append(&contributers_project, (*a)); //append this contributer to project_contributors
                     append2(&A,j);
                     append2(&mentee,j);
-                    }else{
+                    }
+                    else{
                         append3(&non_assign,projects[i]);
                         make_availble(&contributers_project);
                         free(contributers_project.arr);
@@ -192,6 +220,8 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                         break;
                         //the project can not be assigned
                     }
+                }
+                
 
         
                 if(assigned_contributors==projects[i].roles){ //the project is assigned
