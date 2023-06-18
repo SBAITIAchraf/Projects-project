@@ -30,7 +30,7 @@ int main(int argc, char **argv)
     int day = 0;
     int score = 0;
     assignement *assigned_pro = (assignement *) malloc(p*sizeof(assignement));
-    greedy_approach(p, c, day, score, excecuted_project, assigned_pro, projects, srch_map);
+    greedy_approach(p, c, score, excecuted_project, assigned_pro, projects, srch_map);
     fclose(input);
     
 }
