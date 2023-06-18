@@ -65,6 +65,8 @@ void make_availble(Array *contributers_array){
 }
 int Binary_search(Array *a,int first,int last,char *skill, int needed_levl){ // binary search to find the best contributer 
     int x = last + ((first-last)/2);
+    if (x == last || x == first)
+        return x;
     int contrib_level=ret_lvl(a->arr[x].skills,skill);
     if (contrib_level >= needed_levl){
         if (x == a->len-1)
@@ -100,16 +102,23 @@ Contributer *choose(Array *a,char *skill, int needed_levl){
         i--;
     }
     if (i == -1){ //no contr with a higher or equal lvl to required lvl is available
-        if (bi = a->len-1) //no cont is available
+        int current_lvl = ret_lvl(a->arr[bi].skills,skill);
+        if (bi == a->len-1) //no cont is available
         return NULL;
-        else if (ret_lvl(a->arr[bi+1].skills,skill) == needed_levl-1){ //mentorship
-            bi++;
-            while(ret_lvl(a->arr[bi].skills,skill) == needed_levl-1 && a->arr[bi].is_assigned == 1 && bi < a->len){
+        else
+        {
+            int next_lvl = ret_lvl(a->arr[bi+1].skills,skill);
+            if (next_lvl == needed_levl-1){ //mentorship
                 bi++;
+                current_lvl = ret_lvl(a->arr[bi].skills,skill);
+                while(ret_lvl(a->arr[bi].skills,skill) == needed_levl-1 && a->arr[bi].is_assigned == 1 && bi < a->len){
+                    bi++;
+                    current_lvl = ret_lvl(a->arr[bi].skills,skill);
+                }
+                if (bi == a->len || current_lvl != needed_levl-1) 
+                return NULL;
+                return (a->arr+bi);
             }
-            if (bi == a->len || ret_lvl(a->arr[bi].skills,skill) != needed_levl-1) 
-            return NULL;
-            return (a->arr+bi);
         }
         return NULL;
     }
@@ -167,14 +176,13 @@ void printing_function(int pro_done,assignement *projec){
                 {fprintf(fp, "%s\n", projec[i+1].assign_cont.arr[j].name);}
 
         }
-
     }
     fclose (fp);
 }
 
 
 
-void greedy_approach(int p,int c,int score,int excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map){
+void greedy_approach(int p,int c, int day,int score,int excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map){
 
 qsort(projects,p ,sizeof(Project), compareProjects);
 arrayse non_assign=newwArray();
