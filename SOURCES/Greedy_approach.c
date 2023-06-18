@@ -33,12 +33,12 @@ int compareProjects(const void* a, const void* b) {
     const Project* projA = (const Project*)a;
     const Project* projB = (const Project*)b;
 
-    // we Sort the projects by their best_before in descending order
+    // we Sort the projects by their best_before in ascending order
     if (projA->best_bfor > projB->best_bfor) {
-        return -1;
+        return 1;
     }
     else if (projA->best_bfor < projB->best_bfor) {
-        return 1;
+        return -1;
     }
     else {
         // If best_before is the same, we sort them by duration in ascending order
