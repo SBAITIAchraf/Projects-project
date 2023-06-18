@@ -66,7 +66,7 @@ void make_availble(Array *contributers_array){
 int Binary_search(Array *a,int first,int last,char *skill, int needed_levl){ // binary search to find the best contributer 
     int x = last + ((first-last)/2);
     int contrib_level=ret_lvl(a->arr[x].skills,skill);
-    if (contrib_level >= needed_levl-1){
+    if (contrib_level >= needed_levl){
         if (x == a->len-1)
         {
             return x;
@@ -74,7 +74,7 @@ int Binary_search(Array *a,int first,int last,char *skill, int needed_levl){ // 
         else
         {
             int contrib_level_next=ret_lvl(a->arr[x+1].skills,skill);
-            if (contrib_level_next >= needed_levl-1)
+            if (contrib_level_next >= needed_levl)
                 return Binary_search(a,x,last,skill, needed_levl);
             else
                 return x;
@@ -86,11 +86,24 @@ int Binary_search(Array *a,int first,int last,char *skill, int needed_levl){ // 
 //choosing the best contributer for the role
 Contributer *choose(Array *a,char *skill, int needed_levl){
     int i = Binary_search(a,0,a->len-1,skill, needed_levl);
+    int bi = i;
     while((a->arr[i].is_assigned == 1)&&(i >= 0)){  //checking if the contr is available
         i--;
     }
-    if (i == -1)
+    if (i == -1){ //no contr with a higher or equal lvl to required lvl is available
+        if (bi = a->len-1) //no cont is available
         return NULL;
+        else if (ret_lvl(a->arr[bi+1].skills,skill) == needed_levl-1){ //mentorship
+            bi++;
+            while(ret_lvl(a->arr[bi].skills,skill) == needed_levl-1 && a->arr[bi].is_assigned == 1 && bi < a->len){
+                bi++;
+            }
+            if (bi == a->len) 
+            return NULL;
+            return (a->arr+bi);
+        }
+        return NULL;
+    }
     return (a->arr + i);  
 }
 
