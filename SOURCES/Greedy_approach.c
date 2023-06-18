@@ -98,7 +98,7 @@ Contributer *choose(Array *a,char *skill, int needed_levl){
             while(ret_lvl(a->arr[bi].skills,skill) == needed_levl-1 && a->arr[bi].is_assigned == 1 && bi < a->len){
                 bi++;
             }
-            if (bi == a->len || ret_lvl(a->arr[bi].skills,skill) != needed_levl-1) 
+            if (bi == a->len) 
             return NULL;
             return (a->arr+bi);
         }
@@ -155,7 +155,7 @@ void printing_function(int pro_done,assignement *projec){
             if(j<projec[i+1].assign_cont.len-1)
                 {fprintf(fp, "%s ", projec[i+1].assign_cont.arr[j].name);}
             else
-                {fprintf(fp, "%s", projec[i+1].assign_cont.arr[j].name);}
+                {fprintf(fp, "%s\n", projec[i+1].assign_cont.arr[j].name);}
 
         }
 
@@ -285,7 +285,7 @@ for(int i=0; i<p ;i++){    //p is the number of projects
 }
 
 /*while(p!=non_assign.len){
-    greedy_approach(non_assign.len,c,non_assign.arr,&search_map);
+    greedy_approach(non_assign.len,c,score,excecuted_projects,assigned_pro,non_assign.arr,&search_map);
 
 }*/
 printing_function(excecuted_projects, assigned_pro);
