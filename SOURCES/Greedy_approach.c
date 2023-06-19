@@ -148,14 +148,13 @@ Contributer *choose(Array *a,char *skill, int needed_levl){
 
 
 //implement a caalculate_score function to score the projects
-int calculate_total_score(Project *projects,int project_index,int* score,int day){
+void calculate_total_score(Project *projects,int project_index,int* score,int day){
     if(projects[project_index].best_bfor<day){
         *score=(*score)+max(0,projects[project_index].score-(day-projects[project_index].best_bfor));
     }
     else{
-        *score=*score+projects[project_index].score;
+        *score=(*score)+projects[project_index].score;
     }
-    return *score;
 }
 
 
@@ -322,7 +321,7 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                         };
                         assigned_pro[(*excecuted_projects)-1]=proj1;
                         int end=assign(&contributers_project,projects,i,&A);
-                        *score=calculate_total_score(projects,i,score,end);
+                        calculate_total_score(projects,i,score,end);
                         make_availble(&contributers_project);
                         free(contributers_project.ptr_arr);
                         free(A.arr);

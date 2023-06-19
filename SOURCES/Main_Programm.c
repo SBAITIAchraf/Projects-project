@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     setContributers(input ,c, &srch_map, contributers);
     Project *projects = getProjects(input ,p);
     int excecuted_projects = 0;
-    int score=0;
+    int score = 0;
     assignement *assigned_pro=(assignement*)malloc(p*sizeof(assignement));
     arrayse undone = greedy_approach(p,c, &score, &excecuted_projects,assigned_pro, projects, srch_map);
     if (undone.len != 0)
@@ -38,7 +38,6 @@ int main(int argc, char **argv)
             undone = greedy_approach(undone.len,c, &score, &excecuted_projects,assigned_pro, undone.arr, srch_map);
         }while (start_len != undone.len);
     }
-    printf("%d\n", score);
     printing_function(excecuted_projects, assigned_pro);
     fclose(input);
 }
