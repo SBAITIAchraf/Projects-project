@@ -5,12 +5,12 @@
 // The make file is set for windows system
 int main(int argc, char **argv)
 {
-        /*if (argc<2)
+        if (argc<2)
         {
             fprintf(stderr ,"No input was fed to the programm!");
             return 1;
-        }*/
-    FILE *input = fopen("..\\TESTS\\project.txt", "r");
+        }
+    FILE *input = fopen(argv[1], "r");
         if (input == NULL)
         {
             fprintf(stderr, "File not found!");

@@ -190,9 +190,9 @@ void printing_function(int pro_done,assignement *projec){
         fprintf(fp,"%s\n",projec[i].name);
         for(int j=0;j<projec[i].assign_cont.len;j++){
             if(j<projec[i].assign_cont.len-1)
-                {fprintf(fp, "%s ", projec[i].assign_cont.arr[j].name);}
+                {fprintf(fp, "%s ", projec[i].assign_cont.ptr_arr[j]->name);}
             else
-                {fprintf(fp, "%s\n", projec[i].assign_cont.arr[j].name);}
+                {fprintf(fp, "%s\n", projec[i].assign_cont.ptr_arr[j]->name);}
 
         }
     }
@@ -315,9 +315,9 @@ for(int i=0; i<p ;i++){    //p is the number of projects
                         (*excecuted_projects)++;
                         assignement proj1;
                         strcpy(proj1.name, projects[i].name);
-                        proj1.assign_cont=newArray();
+                        proj1.assign_cont=newArray_ptr();
                         for (int j = 0; j < contributers_project.len; j++){
-                            append(&proj1.assign_cont, *contributers_project.ptr_arr[j]);
+                            append_ptr(&proj1.assign_cont, contributers_project.ptr_arr[j]);
                         };
                         assigned_pro[(*excecuted_projects)-1]=proj1;
                         int end=assign(&contributers_project,projects,i,&A);
