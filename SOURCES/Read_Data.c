@@ -41,7 +41,7 @@ void setContributers(FILE *input, int c, Nd **search_map, Contributer *contribut
                 contributers[i] = new_contrib;
                 for (int k = 0; k<new_contrib.skillc; k++)
                 {
-                new(&srch_mp, skill_names[k], contributers[i]);
+                new(&srch_mp, skill_names[k], (contributers+i));
                 }
             }
     *search_map = srch_mp;

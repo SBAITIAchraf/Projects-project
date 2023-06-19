@@ -3,15 +3,15 @@
 #include <stdbool.h>
 #include "../INCLUDE/Functions.h"
 
-void merge(Contributer *arr, char *key,  int left, int right)
+void merge(Contributer **arr, char *key,  int left, int right)
 {
     int i, j, k;
     int mid = left + ((right-left)/2);
     int len1 = mid - left + 1;
     int len2 = right - mid;
  
-    Contributer *arr1 = (Contributer *) malloc(len1 * sizeof(Contributer));
-    Contributer *arr2 = (Contributer *) malloc(len2 * sizeof(Contributer));
+    Contributer **arr1 = (Contributer **) malloc(len1 * sizeof(Contributer *));
+    Contributer **arr2 = (Contributer **) malloc(len2 * sizeof(Contributer *));
  
     for (int i = 0; i <len1; i++)
     {
@@ -29,8 +29,8 @@ void merge(Contributer *arr, char *key,  int left, int right)
     
     while(i<len1 && j<len2)
     {
-        int lvl1 = ret_lvl(arr1[i].skills, key);
-        int lvl2 = ret_lvl(arr2[j].skills, key);
+        int lvl1 = ret_lvl(arr1[i]->skills, key);
+        int lvl2 = ret_lvl(arr2[j]->skills, key);
         if (lvl1  > lvl2)
         {
             arr[k] = arr1[i];
@@ -85,15 +85,15 @@ bool compare(char *s1, char*s2)/*checking if 2 strings are equal or not*/
         return false;
     return true;
 }
-Nd* newNode(char* key,Contributer data)/*creating a new node*/
+Nd* newNode(char* key,Contributer *data)/*creating a new node*/
 {
     Nd* node = (Nd *) malloc(sizeof(Nd));
     node->left = NULL;
     node->right = NULL;
     node->height = 1;
     node->key = key;
-    node->data = newArray();
-    append(&node->data, data);
+    node->data = newArray_ptr();
+    append_ptr(&node->data, data);
     return node;
 }
 
@@ -128,7 +128,7 @@ void leftRotation(Nd** root_adr)
     *root_adr = rightChild;
 }
 
-void insert(Nd** root_adr, char* key,Contributer data)/*inserting a node*/
+void insert(Nd** root_adr, char* key,Contributer *data)/*inserting a node*/
 {
     Nd *root = *root_adr;
     if (root == NULL)
@@ -188,19 +188,19 @@ Array *ret_cntr(Nd* root, char* key)/*return the value of a key*/
     else
         return ret_cntr(root->right, key);
 }
-void add_data(Nd*root,char* key,Contributer data)/*adding the data to key*/
+void add_data(Nd*root,char* key,Contributer *data)/*adding the data to key*/
 {
     if (compare(root->key,key) == true)
         {
-            append(&root->data, data);
-            merge(root->data.arr, key, 0, root->data.len - 1);
+            append_ptr(&root->data, data);
+            merge(root->data.ptr_arr, key, 0, root->data.len - 1);
         }
     else if (chmax(root->key,key) == root->key)
         add_data(root->left, key,data);
     else
         add_data(root->right, key,data);
 }
-void new(Nd**root, char* key, Contributer data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
+void new(Nd**root, char* key, Contributer *data)/*the function that we will use instead of others u give it a key and it create a new node or just changing the data if the key exist*/
 {
     Nd *my_root = *root;
     bool k = find(my_root,key);

@@ -107,42 +107,42 @@ int Binary_search(Array *a,int first,int last,char *skill, int needed_levl){ // 
 
 //choosing the best contributer for the role
 Contributer *choose(Array *a,char *skill, int needed_levl){
-    if (ret_lvl(a->arr[0].skills,skill) == needed_levl-1){ //there is no contrib with a higher or equal lvl to needed level
+    if (ret_lvl(a->ptr_arr[0]->skills,skill) == needed_levl-1){ //there is no contrib with a higher or equal lvl to needed level
         int bi = 0;
-        while(ret_lvl(a->arr[bi].skills,skill) == needed_levl-1 && a->arr[bi].is_assigned == 1 && bi < a->len){
+        while(ret_lvl(a->ptr_arr[bi]->skills,skill) == needed_levl-1 && a->ptr_arr[bi]->is_assigned == 1 && bi < a->len){
                 bi++;
             }
-        if (bi == a->len || ret_lvl(a->arr[bi].skills,skill) != needed_levl-1) 
+        if (bi == a->len || ret_lvl(a->ptr_arr[bi]->skills,skill) != needed_levl-1) 
         return NULL;
         return (a->arr+bi);
     }
     int i = Binary_search(a,0,a->len-1,skill, needed_levl);
     int bi = i;
-    while((a->arr[i].is_assigned == 1)&&(i >= 0)){  //checking if the contr is available
+    while((a->ptr_arr[i]->is_assigned == 1)&&(i >= 0)){  //checking if the contr is available
         i--;
     }
     if (i == -1){ //no contr with a higher or equal lvl to required lvl is available
-        int current_lvl = ret_lvl(a->arr[bi].skills,skill);
+        int current_lvl = ret_lvl(a->ptr_arr[bi]->skills,skill);
         if (bi == a->len-1) //no cont is available
         return NULL;
         else
         {
-            int next_lvl = ret_lvl(a->arr[bi+1].skills,skill);
+            int next_lvl = ret_lvl(a->ptr_arr[bi+1]->skills,skill);
             if (next_lvl == needed_levl-1){ //mentorship
                 bi++;
-                current_lvl = ret_lvl(a->arr[bi].skills,skill);
-                while(ret_lvl(a->arr[bi].skills,skill) == needed_levl-1 && a->arr[bi].is_assigned == 1 && bi < a->len){
+                current_lvl = ret_lvl(a->ptr_arr[bi]->skills,skill);
+                while(ret_lvl(a->ptr_arr[bi]->skills,skill) == needed_levl-1 && a->ptr_arr[bi]->is_assigned == 1 && bi < a->len){
                     bi++;
-                    current_lvl = ret_lvl(a->arr[bi].skills,skill);
+                    current_lvl = ret_lvl(a->ptr_arr[bi]->skills,skill);
                 }
                 if (bi == a->len || current_lvl != needed_levl-1) 
                 return NULL;
-                return (a->arr+bi);
+                return (a->ptr_arr[bi]);
             }
         }
         return NULL;
     }
-    return (a->arr + i);  
+    return a->ptr_arr[i];  
 }
 
 
@@ -259,7 +259,7 @@ for(int i=0; i<p ;i++){    //p is the number of projects
         else{
                 //get the first contrib who has the highest lvl
                 Array *arr= ret_cntr(search_map,projects[i].req_skills[j].name);
-                int contrib_level=ret_lvl(arr->arr[0].skills,projects[i].req_skills[j].name);
+                int contrib_level=ret_lvl(arr->ptr_arr[0]->skills,projects[i].req_skills[j].name);
                 if (contrib_level <projects[i].req_skills[j].level-1 ){
                      append3(&non_assign,projects[i]);
                      make_availble(&contributers_project);
