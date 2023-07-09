@@ -1,19 +1,17 @@
-3 3
+3 2
 Fatima
-1
-Java 3
+0
 Ahmed
-2
+3
 Python 5
+Java 3
 Kotlin 5
 Karim
 1
 Ruby 3
-BlogApp 5 10 5 1
-Java 3
-Ecommerce 7 10 7 2
-Python 3
-Java 2
-MobileApp 10 20 20 2
+BlogApp 5 10 5 2
+Python 5
+Java 1
+Ecommerce 8 10 5 2
 Ruby 3
-Python 3
+Java 1

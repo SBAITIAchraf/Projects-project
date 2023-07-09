@@ -22,7 +22,6 @@ typedef struct
 // Dynamic contributer array
 typedef struct 
 {
-    Contributer *arr;
     Contributer **ptr_arr;
     int len;
     int mal;

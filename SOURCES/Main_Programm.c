@@ -24,20 +24,40 @@ int main(int argc, char **argv)
 
 
     Contributer *contributers = (Contributer *) malloc(c * sizeof(Contributer));
+    Contributer **contributers_ptr = (Contributer **) malloc(c * sizeof(Contributer *));
+    for (int i = 0; i<c; i++)
+    {
+        contributers_ptr[i] = (contributers+i);
+    }
     setContributers(input ,c, &srch_map, contributers);
     Project *projects = getProjects(input ,p);
-    int excecuted_projects = 0;
-    int score = 0;
-    assignement *assigned_pro=(assignement*)malloc(p*sizeof(assignement));
-    arrayse undone = greedy_approach(p,c, &score, &excecuted_projects,assigned_pro, projects, srch_map);
-    if (undone.len != 0)
+    int best_excecuted_projects = 0;
+    int maxscore = 0;
+    assignement *best_assigned_pro=(assignement*)malloc(p*sizeof(assignement));
+    for (int i = 0; i<8; i++)
     {
-        int start_len;
-        do{
-            start_len = undone.len;
-            undone = greedy_approach(undone.len,c, &score, &excecuted_projects,assigned_pro, undone.arr, srch_map);
-        }while (start_len != undone.len);
+        int score = 0;
+        int excecuted_projects = 0;
+        assignement *assigned_pro=(assignement*)malloc(p*sizeof(assignement));
+        sort_projs(projects, p, i);
+        arrayse undone = greedy_approach(p,c, &score, &excecuted_projects,assigned_pro, projects, srch_map, contributers_ptr);
+        if (undone.len != 0)
+        {
+            int start_len;
+            do{
+                start_len = undone.len;
+                undone = greedy_approach(undone.len,c, &score, &excecuted_projects,assigned_pro, undone.arr, srch_map, contributers_ptr);
+            }while (start_len != undone.len);
+        }
+        printf("score: %d\n", score);
+        if (score >= maxscore)
+        {    
+            maxscore = score;
+            best_excecuted_projects = excecuted_projects;
+            best_assigned_pro = assigned_pro;
+        }    
     }
-    printing_function(excecuted_projects, assigned_pro);
+    printf("%d\n", maxscore);
+    printing_function(best_excecuted_projects, best_assigned_pro);
     fclose(input);
 }

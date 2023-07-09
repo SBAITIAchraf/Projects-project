@@ -25,5 +25,9 @@ int max(int a, int b); /*the max of 2 integers*/
 bool find(Nd* root, char* key);/*checking the existence of a key*/
 
 // Greedy approach
-arrayse greedy_approach(int p,int c,int* score,int *excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map);
+void merge_sklls(Contributer **arr,  int left, int right);
+arrayse greedy_approach(int p,int c,int* score,int *excecuted_projects,assignement *assigned_pro,Project *projects,Nd *search_map, Contributer **contributers);
 void printing_function(int pro_done,assignement *projec);
+
+//Sorting projects
+void sort_projs(Project *projects,int p, int n);
