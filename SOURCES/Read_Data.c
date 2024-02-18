@@ -49,7 +49,7 @@ void setContributers(FILE *input, int c, Nd **search_map, Contributer *contribut
 
 Project *getProjects(FILE *input, int p)
 {
-    //Store contributers in an array
+    //Store projects in an array
         Project *projects = (Project *) malloc(p * sizeof(Project));
 
             for (int i = 0; i<p; i++)
